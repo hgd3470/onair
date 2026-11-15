@@ -1,0 +1,27 @@
+"""Stable diagnostics without printing exceptions that may embed source/secrets."""
+SAFE_CODES = frozenset('''
+input_must_be_regular_txt_or_md source_too_large unclosed_frontmatter
+sidecar_must_be_regular_file metadata_too_large use_frontmatter_or_sidecar_not_both
+empty_or_large_source source_text_required_not_just_links reading_text_not_in_source
+max_revisions_must_be_0_to_2 unsafe_prompt_version queue_already_running
+output_exists_use_new_destination invalid_news_originals invalid_news_original_metadata
+invalid_news_handoff fact_quote_not_in_original_article
+invalid_fact_ids fact_quote_not_in_source invalid_category category_override type_override
+checkpoint_config_changed_use_new_destination experiment_deadline_reached
+revision_cannot_change_route revision_cannot_remove_fact_ids revision_budget_exhausted
+source_id_collision feedback_version_mismatch invalid_feedback_sentence feedback_must_be_list
+content_id_collision invalid_job_id destination_must_be_new unsafe_source_path source_digest_mismatch
+rounds_outside_cap experiment_models_must_remain_fixed no_experiment_sources deadline_reached
+limit_must_be_positive invalid_batch_settings batch_result_missing
+feedback_must_be_nonempty_list feedback_content_id_required feedback_content_id_missing_or_duplicate
+feedback_requires_human_review feedback_alias_conflict feedback_expected_version_required
+invalid_feedback_scope feedback_scope_conflict invalid_editorial_brief
+'''.split())
+
+
+def safe_code(exc):
+    if type(exc) is ValueError and exc.args and isinstance(exc.args[0], str) and exc.args[0] in SAFE_CODES:
+        return exc.args[0]
+    if type(exc).__name__ == 'ValidationError':
+        return 'schema_validation_failed'
+    return 'input_or_pipeline_error'

@@ -1,0 +1,211 @@
+{
+  "content_id": "economy",
+  "title": "economy",
+  "category": "economy",
+  "production_type": "사실해설",
+  "target_sec": 60,
+  "script": [
+    "좋은 아침이에요.",
+    "11월 7일 아침 경제 브리핑입니다.",
+    "지난 거래일인 11월 6일, 국내 증시는 크게 내렸어요.",
+    "코스피는 5,059.69로 마감했는데요, 하루 전보다 324.11포인트, 6.02% 떨어졌어요.",
+    "코스닥도 644.27로 5.03% 내렸습니다.",
+    "원·달러 환율은 1,356.6원으로, 하루 전보다 14.5원 올랐어요.",
+    "국고채 3년물 금리는 3.613%로 0.056%포인트 낮아졌습니다.",
+    "오늘은 숫자만 먼저 전해 드렸어요.",
+    "하락 배경은 공식 발표가 나오면 이어서 전해 드릴게요.",
+    "지금까지 한국은행 경제통계시스템 자료로 전해 드린 아침 경제 브리핑이었습니다."
+  ],
+  "sources": [
+    {
+      "source_id": "ecos:802Y001:0001000:20261106",
+      "type": "economy",
+      "collect_method": "api",
+      "fetched_at": "2026-11-07T18:47+09:00",
+      "url": "https://ecos.bok.or.kr/api/StatisticSearch/{KEY}/json/kr/1/10/802Y001/D/20261102/20261106/0001000",
+      "publisher": "한국은행 ECOS",
+      "author_org": "한국거래소",
+      "item": "KOSPI지수",
+      "unit": "pt",
+      "data": [
+        {
+          "time": "20261105",
+          "value": 5383.8
+        },
+        {
+          "time": "20261106",
+          "value": 5059.69
+        }
+      ],
+      "license": {
+        "kind": "ecos-other-org",
+        "commercial": "non-commercial-only",
+        "modify": "values-unchanged",
+        "attribution": "한국은행 경제통계시스템(작성: 한국거래소)",
+        "checked_at": "2026-11-07",
+        "basis": "ECOS 통계정보이용지침: 타 기관 작성 통계는 출처 명시 + 비상업, 상업은 작성기관 승인",
+        "share_alike": false
+      },
+      "attribution": "한국은행 경제통계시스템(작성: 한국거래소)",
+      "source_url": "https://ecos.bok.or.kr/api/StatisticSearch/{KEY}/json/kr/1/10/802Y001/D/20261102/20261106/0001000"
+    },
+    {
+      "source_id": "ecos:802Y001:0089000:20261106",
+      "type": "economy",
+      "collect_method": "api",
+      "fetched_at": "2026-11-07T18:47+09:00",
+      "url": "https://ecos.bok.or.kr/api/StatisticSearch/{KEY}/json/kr/1/10/802Y001/D/20261102/20261106/0089000",
+      "publisher": "한국은행 ECOS",
+      "author_org": "한국거래소",
+      "item": "KOSDAQ지수",
+      "unit": "pt",
+      "data": [
+        {
+          "time": "20261105",
+          "value": 678.41
+        },
+        {
+          "time": "20261106",
+          "value": 644.27
+        }
+      ],
+      "license": {
+        "kind": "ecos-other-org",
+        "commercial": "non-commercial-only",
+        "modify": "values-unchanged",
+        "attribution": "한국은행 경제통계시스템(작성: 한국거래소)",
+        "checked_at": "2026-11-07",
+        "basis": "같음",
+        "share_alike": false
+      },
+      "attribution": "한국은행 경제통계시스템(작성: 한국거래소)",
+      "source_url": "https://ecos.bok.or.kr/api/StatisticSearch/{KEY}/json/kr/1/10/802Y001/D/20261102/20261106/0089000"
+    },
+    {
+      "source_id": "ecos:731Y003:0000003:20261106",
+      "type": "economy",
+      "collect_method": "api",
+      "fetched_at": "2026-11-07T18:47+09:00",
+      "url": "https://ecos.bok.or.kr/api/StatisticSearch/{KEY}/json/kr/1/10/731Y003/D/20261102/20261106/0000003",
+      "publisher": "한국은행 ECOS",
+      "author_org": "한국은행",
+      "item": "원/달러(종가 15:30)",
+      "unit": "원",
+      "data": [
+        {
+          "time": "20261105",
+          "value": 1342.1
+        },
+        {
+          "time": "20261106",
+          "value": 1356.6
+        }
+      ],
+      "license": {
+        "kind": "ecos-bok",
+        "commercial": "yes",
+        "modify": "values-unchanged",
+        "attribution": "한국은행 경제통계시스템",
+        "checked_at": "2026-11-07",
+        "basis": "ECOS 통계정보이용지침: 한국은행 작성 통계는 출처 명시 시 상업 포함 사용·가공·재배포",
+        "share_alike": false
+      },
+      "attribution": "한국은행 경제통계시스템",
+      "source_url": "https://ecos.bok.or.kr/api/StatisticSearch/{KEY}/json/kr/1/10/731Y003/D/20261102/20261106/0000003"
+    },
+    {
+      "source_id": "ecos:817Y002:010200000:20261106",
+      "type": "economy",
+      "collect_method": "api",
+      "fetched_at": "2026-11-07T18:47+09:00",
+      "url": "https://ecos.bok.or.kr/api/StatisticSearch/{KEY}/json/kr/1/10/817Y002/D/20261102/20261106/010200000",
+      "publisher": "한국은행 ECOS",
+      "author_org": "한국은행",
+      "item": "국고채(3년)",
+      "unit": "연%",
+      "data": [
+        {
+          "time": "20261105",
+          "value": 3.669
+        },
+        {
+          "time": "20261106",
+          "value": 3.613
+        }
+      ],
+      "license": {
+        "kind": "ecos-bok",
+        "commercial": "yes",
+        "modify": "values-unchanged",
+        "attribution": "한국은행 경제통계시스템",
+        "checked_at": "2026-11-07",
+        "basis": "같음",
+        "share_alike": false
+      },
+      "attribution": "한국은행 경제통계시스템",
+      "source_url": "https://ecos.bok.or.kr/api/StatisticSearch/{KEY}/json/kr/1/10/817Y002/D/20261102/20261106/010200000"
+    }
+  ],
+  "material": {
+    "script_type": "economy",
+    "as_of": "2026-11-06",
+    "source_ids": [
+      "ecos:802Y001:0001000:20261106",
+      "ecos:802Y001:0089000:20261106",
+      "ecos:731Y003:0000003:20261106",
+      "ecos:817Y002:010200000:20261106"
+    ],
+    "facts": [
+      {
+        "id": "f1",
+        "label": "코스피 종가",
+        "value": 5059.69,
+        "prev": 5383.8,
+        "change": -324.11,
+        "change_pct": -6.02,
+        "unit": "포인트",
+        "source_id": "ecos:802Y001:0001000:20261106"
+      },
+      {
+        "id": "f2",
+        "label": "코스닥 종가",
+        "value": 644.27,
+        "prev": 678.41,
+        "change": -34.14,
+        "change_pct": -5.03,
+        "unit": "포인트",
+        "source_id": "ecos:802Y001:0089000:20261106"
+      },
+      {
+        "id": "f3",
+        "label": "원/달러 환율(15:30 종가)",
+        "value": 1356.6,
+        "prev": 1342.1,
+        "change": 14.5,
+        "change_pct": 1.08,
+        "unit": "원",
+        "source_id": "ecos:731Y003:0000003:20261106"
+      },
+      {
+        "id": "f4",
+        "label": "국고채 3년 금리",
+        "value": 3.613,
+        "prev": 3.669,
+        "change": -0.056,
+        "unit": "%",
+        "source_id": "ecos:817Y002:010200000:20261106"
+      }
+    ],
+    "angle": "전날 증시 급락과 환율 상승을 수치로 전달",
+    "rules": {
+      "numbers": "facts 값만 사용, 반올림 금지",
+      "no_cause_without_source": true,
+      "date_wording": "어제 대신 지난 거래일·날짜",
+      "no_advice": true
+    },
+    "attribution": "한국은행 경제통계시스템(코스피·코스닥 작성: 한국거래소)"
+  },
+  "generator": {
+    "revision": 0
+  }
+}

@@ -1,0 +1,16 @@
+# 한 서버 실행용 공통 환경 (Python 3.11 이상). API · 스튜디오 · 제작 자동화가 같은 venv를 쓴다.
+#   python -m venv .venv && .venv/bin/pip install -r infra/one-server/requirements.txt
+#   .venv/bin/pip install -e ai/script_agent
+fastapi==0.162.0
+uvicorn==0.54.0
+python-multipart==0.0.33  # 제작 사이트 로그인 폼(form) 읽기. 없으면 로그인이 500으로 실패한다
+pydantic==2.14.2
+httpx==0.28.1
+python-dotenv>=1.2,<2
+pyyaml>=6.0,<7
+filelock>=3.20,<5
+anthropic==2.4.0
+numpy
+soundfile
+lameenc
+pytest==9.2.0

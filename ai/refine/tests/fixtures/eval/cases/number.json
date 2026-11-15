@@ -1,0 +1,22 @@
+{
+  "content_id": "shared-base",
+  "title": "number",
+  "category": "life",
+  "production_type": "사실해설",
+  "target_sec": 60,
+  "script": [
+    "가격은 99원이에요."
+  ],
+  "sources": [],
+  "material": {
+    "facts": [
+      {
+        "id": "f1",
+        "text": "가격은 10원이다"
+      }
+    ]
+  },
+  "generator": {
+    "revision": 0
+  }
+}

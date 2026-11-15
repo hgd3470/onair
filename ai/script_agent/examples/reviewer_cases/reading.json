@@ -1,0 +1,127 @@
+{
+  "case_id": "reading",
+  "source_text": "창가에 작은 불빛이 남았다.\n나는 그 불빛을 보았다.\n불빛은 작았다.\n그래도 나는 그 불빛을 보았다.",
+  "metadata": {
+    "source_id": "fixture-reading",
+    "author": "S2-05 연결 시험용 자체 작성",
+    "license": {
+      "kind": "internal-test-fixture",
+      "version": "1",
+      "commercial": true,
+      "modify": true,
+      "share_alike": false,
+      "evidence": "이 프로젝트에서 연결 시험용으로 새로 작성한 텍스트; 외부 원문 아님"
+    },
+    "attribution": "S2-05 연결 시험용 자체 작성 원문. 실제 사례·기관 규정·외부 검증 자료 아님.",
+    "category": "C15",
+    "production_type": "원문낭독형",
+    "target_sec": 30,
+    "fixture": true,
+    "info_as_of": null,
+    "reading_text": "창가에 작은 불빛이 남았다.\n나는 그 불빛을 보았다.\n불빛은 작았다.\n그래도 나는 그 불빛을 보았다.",
+    "edition": "연결 시험용 자체 작성 v1"
+  },
+  "material": {
+    "production_type": "원문낭독형",
+    "category": "C15",
+    "routing_reason": "제작 유형별 회귀 테스트용 명시 지정",
+    "summary": "가상 원문/자체 작성 원문을 이용한 연결 테스트",
+    "conflict": "",
+    "details": [],
+    "question": "원문을 왜곡하지 않고 들려줄 수 있는가?",
+    "facts": [
+      {
+        "id": "f1",
+        "text": "창가에 작은 불빛이 남았다.",
+        "quote": "창가에 작은 불빛이 남았다.",
+        "kind": "fiction",
+        "conditions": []
+      },
+      {
+        "id": "f2",
+        "text": "나는 그 불빛을 보았다.",
+        "quote": "나는 그 불빛을 보았다.",
+        "kind": "fiction",
+        "conditions": []
+      },
+      {
+        "id": "f3",
+        "text": "불빛은 작았다.",
+        "quote": "불빛은 작았다.",
+        "kind": "fiction",
+        "conditions": []
+      },
+      {
+        "id": "f4",
+        "text": "그래도 나는 그 불빛을 보았다.",
+        "quote": "그래도 나는 그 불빛을 보았다.",
+        "kind": "fiction",
+        "conditions": []
+      }
+    ],
+    "unknowns": [],
+    "outline": [
+      "도입",
+      "근거와 전개",
+      "마무리"
+    ]
+  },
+  "draft": {
+    "title": "작은 불빛",
+    "format": "본문낭독형",
+    "tags": [
+      "연결테스트"
+    ],
+    "script": [
+      "작은 불빛이라는 연결 시험용 창작 산문을 읽습니다.",
+      "창가에 작은 불빛이 남아 있었습니다.",
+      "나는 그 불빛을 보았다.",
+      "불빛은 작았다."
+    ],
+    "claims": [
+      {
+        "sentence": 1,
+        "kind": "transition",
+        "fact_ids": []
+      },
+      {
+        "sentence": 2,
+        "kind": "quotation",
+        "fact_ids": [
+          "f1"
+        ]
+      },
+      {
+        "sentence": 3,
+        "kind": "quotation",
+        "fact_ids": [
+          "f2"
+        ]
+      },
+      {
+        "sentence": 4,
+        "kind": "quotation",
+        "fact_ids": [
+          "f3"
+        ]
+      }
+    ],
+    "adaptation_note": {
+      "from_source": [
+        "창가에 작은 불빛이 남았다.",
+        "나는 그 불빛을 보았다.",
+        "불빛은 작았다.",
+        "그래도 나는 그 불빛을 보았다."
+      ],
+      "new": []
+    },
+    "unresolved": [],
+    "changes": []
+  },
+  "expected_issue": "원문 첫 문장 윤문과 마지막 반복 문장 삭제",
+  "expected_sentences": [
+    2,
+    0
+  ],
+  "provenance": "manually_authored_adversarial_fixture_not_gemini_output"
+}

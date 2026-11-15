@@ -1,0 +1,36 @@
+# analyze / generate / revise: 원문 분석, 초안 생성, 피드백 반영 수정
+[models.generator]
+provider = "gemini"
+model = "gemini-4-hydrogen"
+effort = "medium"
+# MAX_TOKENS observed with ~15k thinking tokens; leave room for structured output.
+max_output_tokens = 32000
+
+# review: 검토 및 수정본 재검토
+[models.reviewer]
+provider = "openai"
+model = "gpt-6-luna"
+effort = "medium"
+max_output_tokens = 12000
+
+[pipeline]
+mode = "batch"
+max_revisions = 2
+timeout_sec = 300
+max_source_chars = 160000
+prompt_version = "v27"
+target_sec = 90
+# 사용자 TTS 실측: 공백 포함 500자 / 60초. 개별 음성의 실측 길이는 별도.
+chars_per_sec = 8.333333333333334
+character_count_mode = "with_spaces"
+
+# batch mode (Gemini Batch API 비동기 일괄 처리 & 50% 비용 할인)
+[batch]
+batch_size = 100       # Gemini Batch 1회 요청 청크 크기 (1~200)
+poll_interval_sec = 15 # Gemini Batch 상태 확인 주기(초)
+wait_timeout_sec = 86400 # 한 원격 배치 조회 대기 상한; 중단 후 같은 ID로 재개
+gpt_workers = 6        # GPT 실시간 검토 병렬 워커 수 (2 OCPU / 12GB RAM 사양에 최적화)
+
+[experiments]
+max_rounds = 30
+deadline = "2026-11-08T09:00:00+09:00"

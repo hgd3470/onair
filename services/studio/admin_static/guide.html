@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>온에어 판단 가이드</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#111418;--sub:#5b6370;--line:#e4e7ec;--blue:#2457f5;--blue-bg:#eef3ff;--good:#127a43;--good-bg:#ecf8f1;--bad:#b4361f;--bad-bg:#fdf1ee}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+header{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{max-width:880px;margin:0 auto;padding:12px 16px;display:flex;gap:16px;align-items:center}
+.bar a.back{color:var(--sub);text-decoration:none;font-size:14px;white-space:nowrap}
+.bar a.back:hover{color:var(--ink)}
+.toc{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.toc::-webkit-scrollbar{display:none}
+.toc a{flex:none;font-size:13px;color:var(--sub);text-decoration:none;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:#fff}
+.toc a:hover{color:var(--blue);border-color:var(--blue)}
+main{max-width:880px;margin:0 auto;padding:28px 16px 80px}
+h1{font-size:26px;letter-spacing:-.02em;margin:0 0 6px}
+.lead{color:var(--sub);margin:0 0 22px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px;color:var(--sub);margin-bottom:26px}
+.flow span{background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 9px}
+.flow i{font-style:normal;color:#aab0bb}
+section.stage{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:18px;scroll-margin-top:70px}
+.who{display:inline-block;font-size:12px;font-weight:600;color:var(--blue);background:var(--blue-bg);padding:3px 9px;border-radius:999px;margin-bottom:8px}
+h2{font-size:20px;margin:0 0 4px;letter-spacing:-.01em}
+.decide{font-size:16px;font-weight:600;margin:10px 0 18px;padding-left:12px;border-left:3px solid var(--blue)}
+h3{font-size:13px;color:var(--sub);font-weight:600;margin:20px 0 8px}
+ol.q{margin:0;padding-left:20px}
+ol.q li{margin:4px 0}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ex{border-radius:12px;padding:12px 14px;font-size:14px}
+.ex b{display:block;font-size:12px;margin-bottom:4px}
+.ex.good{background:var(--good-bg)}.ex.good b{color:var(--good)}
+.ex.bad{background:var(--bad-bg)}.ex.bad b{color:var(--bad)}
+.ex q{quotes:"“" "”"}
+.ex small{display:block;color:var(--sub);margin-top:6px;font-size:13px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.split div{border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px}
+.split div b{display:block;font-size:12px;color:var(--sub);margin-bottom:4px}
+.split ul{margin:0;padding-left:18px}
+.note{font-size:13px;color:var(--sub);margin-top:28px}
+@media (max-width:640px){.pair,.split{grid-template-columns:1fr}section.stage{padding:18px}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+<a class="back" href="/admin/">← 대시보드</a>
+<nav class="toc" aria-label="단계">
+<a href="#s1">1 대본 쓰기</a><a href="#s2">2 검수</a><a href="#s3">3 목소리</a><a href="#s4">4 음성·듣기</a><a href="#s5">5 게시 뒤</a>
+</nav>
+</div></header>
+<main>
+<h1>온에어 판단 가이드</h1>
+<p class="lead">AI는 초안과 1차 의견을 내고, 결정은 사람이 한다. 단계마다 내가 정하는 것 하나, 막힐 때 볼 질문 셋, 실제 대본에서 고른 예시가 있다.</p>
+<div class="flow"><span>대본 쓰기</span><i>→</i><span>제출</span><i>→</i><span>검수 통과</span><i>→</i><span>목소리 배정</span><i>→</i><span>음성 만들기</span><i>→</i><span>듣고 팀 API에 게시</span></div>
+
+<section class="stage" id="s1">
+<span class="who">1단계 · 대본 담당</span>
+<h2>대본 쓰기</h2>
+<p class="decide">운전 중인 사람이 첫 문장을 듣고 끝까지 들을 이야기인가</p>
+<h3>막힐 때 볼 질문</h3>
+<ol class="q">
+<li>제목만 듣고 장면이 떠오르나? 강의 제목처럼 들리면 다시 쓴다.</li>
+<li>첫 문장이 질문이나 의외의 장면으로 시작하나? 배경 설명으로 시작하면 두 번째 문장과 순서를 바꿔 본다.</li>
+<li>화면 없이 귀로만 들어도 따라오나? 소리 내어 읽고 숨이 차는 문장은 나눈다. 250~450자.</li>
+</ol>
+<h3>제목</h3>
+<div class="pair">
+<div class="ex good"><b>살아 있는 제목</b><q>양말 대기실</q>, <q>맞는 번호 반대 방향</q><small>짧고, 무슨 일인지 궁금하다. 일상 장면 하나를 비튼다.</small></div>
+<div class="ex bad"><b>힘이 빠지는 제목</b><q>AI 시대 콘텐츠의 제작과 IP 확장</q>, <q>No로 지키는 시간과 에너지</q><small>강의 제목처럼 들리고, 영문은 음성으로 읽으면 어색하다.</small></div>
+</div>
+<h3>첫 문장</h3>
+<div class="pair">
+<div class="ex good"><b>귀가 열리는 첫 문장</b><q>빨래를 갰는데, 양말 다섯 짝이 모두 서로 모르는 사이였어요.</q><small>장면과 반전이 한 문장에 있다.</small></div>
+<div class="ex bad"><b>그냥 지나가는 첫 문장</b><q>짧은 이야기를 하나 만들었다고 해 볼게요.</q><small>아직 아무 일도 일어나지 않았다. 궁금한 것이 없다.</small></div>
+</div>
+<h3>AI와 나눠 맡기</h3>
+<div class="split">
+<div><b>AI에 맡길 것</b><ul><li>양식 맞추기, 숫자·영문을 한글 읽기로</li><li>소재 후보 여러 개, 제목 후보 열 개</li></ul></div>
+<div><b>내가 볼 것</b><ul><li>제목 하나 고르기, 첫 문장 고치기</li><li>소리 내어 읽기, 출처 링크 열어 보기</li></ul></div>
+</div>
+</section>
+
+<section class="stage" id="s2">
+<span class="who">2단계 · 검수 담당</span>
+<h2>대본 검수</h2>
+<p class="decide">이 대본을 내보냈을 때 틀린 말이나 남의 글 때문에 문제가 생기지 않는가</p>
+<h3>막힐 때 볼 질문</h3>
+<ol class="q">
+<li>사실 문장마다 출처에 실제로 있나? 출처 링크를 열어 숫자와 연도를 대조한다.</li>
+<li>원천 등급이 '허락 전 금지'는 아닌가? '사실만 참고'인데 문장을 그대로 옮기지 않았나?</li>
+<li>혐오·차별, 의료·투자 단정, 실존 인물 비방이 없나?</li>
+</ol>
+<h3>예시</h3>
+<div class="pair">
+<div class="ex good"><b>출처로 확인되는 질문형</b><q>훈민정음은 천사백사십삼 년에 만들어졌을까요, 천사백사십육 년에 만들어졌을까요?</q><small>두 연도가 각각 무엇인지 출처에서 바로 확인할 수 있다.</small></div>
+<div class="ex bad"><b>다시 볼 것</b><q>첫 공연을 마치고, 말없이 앉았던 저녁</q> 본문 874자<small>사실은 문제없어도 기준(250~450자)을 크게 넘는다. "수정 필요"로 돌려 둘로 나누거나 줄이게 한다.</small></div>
+</div>
+<h3>AI와 나눠 맡기</h3>
+<div class="split">
+<div><b>AI에 맡길 것</b><ul><li>글자 수, 숫자 표기, 한 줄 한 문장 점검</li><li>확인이 필요한 사실 문장 골라내기</li></ul></div>
+<div><b>내가 볼 것</b><ul><li>출처 링크 직접 열기</li><li>통과·수정 필요 최종 판정</li></ul></div>
+</div>
+</section>
+
+<section class="stage" id="s3">
+<span class="who">3단계 · 음성 담당</span>
+<h2>목소리 배정</h2>
+<p class="decide">이 이야기를 누가 말해야 듣는 사람이 믿고 계속 듣는가</p>
+<h3>막힐 때 볼 질문</h3>
+<ol class="q">
+<li>화자는 몇 살쯤이고, 웃긴 썰인지 잔잔한 사연인지 정보 전달인지?</li>
+<li>장르 담당이 정해져 있나? 성경은 성호, 광고는 은채, 고전·역사는 주하, 시사·정책·법은 필재.</li>
+<li>한 목소리가 전체의 30%를 넘지 않나?</li>
+</ol>
+<h3>예시</h3>
+<div class="pair">
+<div class="ex good"><b>본문에서 근거를 댄 배정</b><q>첫 출근, 이름이 두 개</q> → 박창수<small>"닉네임 '제이'가 옆자리 동료였다는 반전으로 웃기는 직장 썰이다." 분위기를 근거로 규칙 기본값(다은)을 바꿨다.</small></div>
+<div class="ex bad"><b>근거가 빈 배정</b>장르만 보고 기본값 그대로<small>규칙표만 따르면 같은 목소리가 몰리고, 웃긴 썰도 잔잔하게 들린다.</small></div>
+</div>
+<h3>AI와 나눠 맡기</h3>
+<div class="split">
+<div><b>AI에 맡길 것</b><ul><li>1·2순위 후보와 한 줄 이유</li><li>목소리 쏠림 계산</li></ul></div>
+<div><b>내가 볼 것</b><ul><li>샘플을 직접 들어 보고 A/B로 고르기</li><li>고른 결과를 지난판정에 남기기</li></ul></div>
+</div>
+</section>
+
+<section class="stage" id="s4">
+<span class="who">4단계 · 관리자</span>
+<h2>음성 만들기 · 들어 보기</h2>
+<p class="decide">이대로 운전자에게 내보낼까</p>
+<h3>막힐 때 볼 질문</h3>
+<ol class="q">
+<li>숫자·영문·고유명사를 제대로 읽었나? 연도와 이름부터 듣는다.</li>
+<li>문장 사이가 끊기거나 너무 빠른 곳은 없나?</li>
+<li>첫 오 초에 분위기가 대본과 맞나? 웃긴 썰이 너무 진지하게 들리지 않나?</li>
+</ol>
+<h3>정해 둔 것</h3>
+<div class="split">
+<div><b>대상</b><ul><li>검수를 통과한 대본만</li><li>실행은 관리자만</li></ul></div>
+<div><b>한도</b><ul><li>하루 5천 크레딧</li></ul></div>
+</div>
+</section>
+
+<section class="stage" id="s5">
+<span class="who">5단계 · 모두</span>
+<h2>팀 API 게시 뒤</h2>
+<p class="decide">들은 사람이 다음 편도 들었나, 그래서 다음엔 무엇을 쓸까</p>
+<h3>막힐 때 볼 질문</h3>
+<ol class="q">
+<li>끝까지 들은 편과 중간에 넘긴 편은 제목과 첫 문장이 어떻게 달랐나?</li>
+<li>어떤 상황(출근길, 아이 동승, 밤 운전)에 맞는 편이 비어 있나?</li>
+<li>같은 소재를 다른 목소리로 내면 반응이 달랐나?</li>
+</ol>
+</section>
+
+<p class="note">예시는 지금 팀 API에 게시된 37편에서 AI(Claude)가 골랐고, 팀이 아직 확인하지 않았다. 각 단계의 상세 규칙은 대시보드에서 받는 꾸러미의 프롬프트 파일에 있다.</p>
+</main>
+</body>
+</html>

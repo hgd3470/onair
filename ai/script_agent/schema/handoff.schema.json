@@ -1,0 +1,1498 @@
+{
+  "$defs": {
+    "AdaptationNote": {
+      "additionalProperties": false,
+      "properties": {
+        "from_source": {
+          "items": {
+            "type": "string"
+          },
+          "title": "From Source",
+          "type": "array"
+        },
+        "new": {
+          "items": {
+            "type": "string"
+          },
+          "title": "New",
+          "type": "array"
+        }
+      },
+      "required": [
+        "from_source",
+        "new"
+      ],
+      "title": "AdaptationNote",
+      "type": "object"
+    },
+    "CallEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "stage": {
+          "title": "Stage",
+          "type": "string"
+        },
+        "model": {
+          "title": "Model",
+          "type": "string"
+        },
+        "response_model": {
+          "title": "Response Model",
+          "type": "string"
+        },
+        "effort": {
+          "title": "Effort",
+          "type": "string"
+        },
+        "prompt_version": {
+          "title": "Prompt Version",
+          "type": "string"
+        },
+        "prompt_sha256": {
+          "title": "Prompt Sha256",
+          "type": "string"
+        },
+        "usage": {
+          "additionalProperties": true,
+          "title": "Usage",
+          "type": "object"
+        },
+        "elapsed_sec": {
+          "title": "Elapsed Sec",
+          "type": "number"
+        },
+        "at": {
+          "title": "At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage",
+        "model",
+        "response_model",
+        "effort",
+        "prompt_version",
+        "prompt_sha256",
+        "usage",
+        "elapsed_sec",
+        "at"
+      ],
+      "title": "CallEvent",
+      "type": "object"
+    },
+    "Claim": {
+      "additionalProperties": false,
+      "properties": {
+        "sentence": {
+          "minimum": 1,
+          "title": "Sentence",
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "fact",
+            "source_statement",
+            "opinion",
+            "fiction",
+            "transition",
+            "quotation"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sentence",
+        "kind",
+        "fact_ids"
+      ],
+      "title": "Claim",
+      "type": "object"
+    },
+    "ContentReview": {
+      "additionalProperties": false,
+      "properties": {
+        "verdict": {
+          "enum": [
+            "pass",
+            "revise",
+            "needs_evidence"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        },
+        "facts_only": {
+          "title": "Facts Only",
+          "type": "boolean"
+        },
+        "attributed_opinions": {
+          "default": false,
+          "title": "Attributed Opinions",
+          "type": "boolean"
+        },
+        "independent_wording": {
+          "title": "Independent Wording",
+          "type": "boolean"
+        },
+        "no_distinctive_expression": {
+          "title": "No Distinctive Expression",
+          "type": "boolean"
+        },
+        "covered_sentences": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Covered Sentences",
+          "type": "array"
+        },
+        "findings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Findings",
+          "type": "array"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "verdict",
+        "facts_only",
+        "independent_wording",
+        "no_distinctive_expression",
+        "covered_sentences",
+        "findings",
+        "rationale"
+      ],
+      "title": "ContentReview",
+      "type": "object"
+    },
+    "Duration": {
+      "additionalProperties": false,
+      "properties": {
+        "estimated_sec": {
+          "title": "Estimated Sec",
+          "type": "number"
+        },
+        "measured_sec": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Measured Sec"
+        },
+        "method": {
+          "title": "Method",
+          "type": "string"
+        },
+        "chars_per_sec": {
+          "title": "Chars Per Sec",
+          "type": "number"
+        }
+      },
+      "required": [
+        "estimated_sec",
+        "measured_sec",
+        "method",
+        "chars_per_sec"
+      ],
+      "title": "Duration",
+      "type": "object"
+    },
+    "EditorialCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement": {
+          "minimum": 1,
+          "title": "Requirement",
+          "type": "integer"
+        },
+        "satisfied": {
+          "title": "Satisfied",
+          "type": "boolean"
+        },
+        "evidence": {
+          "minLength": 1,
+          "title": "Evidence",
+          "type": "string"
+        }
+      },
+      "required": [
+        "requirement",
+        "satisfied",
+        "evidence"
+      ],
+      "title": "EditorialCheck",
+      "type": "object"
+    },
+    "Fact": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "description": "Material card ID, including opinion cards: f1, f2, ...; collector F/O IDs belong in conditions.",
+          "pattern": "^f[1-9][0-9]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "quote": {
+          "title": "Quote",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "source_statement",
+            "opinion",
+            "fiction"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "conditions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Conditions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "quote",
+        "kind",
+        "conditions"
+      ],
+      "title": "Fact",
+      "type": "object"
+    },
+    "Generator": {
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "title": "Model",
+          "type": "string"
+        },
+        "effort": {
+          "title": "Effort",
+          "type": "string"
+        },
+        "prompt_version": {
+          "title": "Prompt Version",
+          "type": "string"
+        },
+        "revision": {
+          "maximum": 2,
+          "minimum": 0,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "feedback_revision": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Feedback Revision",
+          "type": "integer"
+        },
+        "self_check_model": {
+          "title": "Self Check Model",
+          "type": "string"
+        },
+        "revision_model": {
+          "title": "Revision Model",
+          "type": "string"
+        },
+        "self_check_effort": {
+          "title": "Self Check Effort",
+          "type": "string"
+        },
+        "calls": {
+          "items": {
+            "$ref": "#/$defs/CallEvent"
+          },
+          "title": "Calls",
+          "type": "array"
+        },
+        "revision_prompt_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Revision Prompt Version"
+        }
+      },
+      "required": [
+        "model",
+        "effort",
+        "prompt_version",
+        "revision",
+        "self_check_model",
+        "revision_model",
+        "self_check_effort",
+        "calls"
+      ],
+      "title": "Generator",
+      "type": "object"
+    },
+    "Issue": {
+      "additionalProperties": false,
+      "properties": {
+        "sentence": {
+          "minimum": 0,
+          "title": "Sentence",
+          "type": "integer"
+        },
+        "problem": {
+          "title": "Problem",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "direction": {
+          "title": "Direction",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sentence",
+        "problem",
+        "reason",
+        "direction"
+      ],
+      "title": "Issue",
+      "type": "object"
+    },
+    "License": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "default": "unknown",
+          "title": "Kind",
+          "type": "string"
+        },
+        "version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Version"
+        },
+        "commercial": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Commercial"
+        },
+        "modify": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Modify"
+        },
+        "share_alike": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Share Alike"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence"
+        }
+      },
+      "title": "License",
+      "type": "object"
+    },
+    "Material": {
+      "additionalProperties": false,
+      "properties": {
+        "production_type": {
+          "enum": [
+            "창작·각색형",
+            "사실해설형",
+            "사실서사형",
+            "실행안내형",
+            "해석·감상형",
+            "원문낭독형"
+          ],
+          "title": "Production Type",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "C01",
+            "C02",
+            "C03",
+            "C04",
+            "C05",
+            "C06",
+            "C07",
+            "C08",
+            "C09",
+            "C10",
+            "C11",
+            "C12",
+            "C13",
+            "C14",
+            "C15",
+            "C16",
+            "C17",
+            "C18",
+            "C19",
+            "C20",
+            "C21"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "routing_reason": {
+          "title": "Routing Reason",
+          "type": "string"
+        },
+        "summary": {
+          "title": "Summary",
+          "type": "string"
+        },
+        "conflict": {
+          "title": "Conflict",
+          "type": "string"
+        },
+        "details": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Details",
+          "type": "array"
+        },
+        "question": {
+          "title": "Question",
+          "type": "string"
+        },
+        "facts": {
+          "items": {
+            "$ref": "#/$defs/Fact"
+          },
+          "title": "Facts",
+          "type": "array"
+        },
+        "unknowns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unknowns",
+          "type": "array"
+        },
+        "outline": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Outline",
+          "type": "array"
+        }
+      },
+      "required": [
+        "production_type",
+        "category",
+        "routing_reason",
+        "summary",
+        "conflict",
+        "details",
+        "question",
+        "facts",
+        "unknowns",
+        "outline"
+      ],
+      "title": "Material",
+      "type": "object"
+    },
+    "OriginalSource": {
+      "additionalProperties": false,
+      "description": "Provenance of a supplied summary, not a fetched or verified snapshot.",
+      "properties": {
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        },
+        "author": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Author"
+        },
+        "license": {
+          "$ref": "#/$defs/License"
+        },
+        "attribution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attribution"
+        }
+      },
+      "title": "OriginalSource",
+      "type": "object"
+    },
+    "Permission": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "default": "unknown",
+          "enum": [
+            "unknown",
+            "permitted",
+            "prohibited"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "basis": {
+          "default": "",
+          "title": "Basis",
+          "type": "string"
+        },
+        "evidence": {
+          "default": "",
+          "title": "Evidence",
+          "type": "string"
+        },
+        "reviewed_by": {
+          "default": "",
+          "title": "Reviewed By",
+          "type": "string"
+        },
+        "reviewed_at": {
+          "default": "",
+          "title": "Reviewed At",
+          "type": "string"
+        },
+        "valid_until": {
+          "default": "",
+          "title": "Valid Until",
+          "type": "string"
+        }
+      },
+      "title": "Permission",
+      "type": "object"
+    },
+    "ReviewRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "verdict": {
+          "enum": [
+            "pass",
+            "revise",
+            "needs_evidence"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/Issue"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "scores": {
+          "$ref": "#/$defs/Scores"
+        },
+        "strengths": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Strengths",
+          "type": "array"
+        },
+        "remaining": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Remaining",
+          "type": "array"
+        },
+        "editorial_checks": {
+          "items": {
+            "$ref": "#/$defs/EditorialCheck"
+          },
+          "title": "Editorial Checks",
+          "type": "array"
+        },
+        "feedback_round_revision": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Feedback Round Revision"
+        },
+        "feedback_revision": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Feedback Revision"
+        },
+        "revision": {
+          "title": "Revision",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "verdict",
+        "issues",
+        "scores",
+        "strengths",
+        "remaining",
+        "revision"
+      ],
+      "title": "ReviewRecord",
+      "type": "object"
+    },
+    "Scores": {
+      "additionalProperties": false,
+      "properties": {
+        "grounding": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Grounding",
+          "type": "integer"
+        },
+        "listening": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Listening",
+          "type": "integer"
+        },
+        "engagement": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Engagement",
+          "type": "integer"
+        },
+        "type_fit": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Type Fit",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "grounding",
+        "listening",
+        "engagement",
+        "type_fit"
+      ],
+      "title": "Scores",
+      "type": "object"
+    },
+    "SourceMeta": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Id"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        },
+        "author": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Author"
+        },
+        "license": {
+          "$ref": "#/$defs/License"
+        },
+        "attribution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attribution"
+        },
+        "info_as_of": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Info As Of"
+        },
+        "collected_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Collected At"
+        },
+        "edition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Edition"
+        },
+        "category": {
+          "anyOf": [
+            {
+              "enum": [
+                "C01",
+                "C02",
+                "C03",
+                "C04",
+                "C05",
+                "C06",
+                "C07",
+                "C08",
+                "C09",
+                "C10",
+                "C11",
+                "C12",
+                "C13",
+                "C14",
+                "C15",
+                "C16",
+                "C17",
+                "C18",
+                "C19",
+                "C20",
+                "C21"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Category"
+        },
+        "production_type": {
+          "anyOf": [
+            {
+              "enum": [
+                "창작·각색형",
+                "사실해설형",
+                "사실서사형",
+                "실행안내형",
+                "해석·감상형",
+                "원문낭독형"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Production Type"
+        },
+        "target_sec": {
+          "default": 90,
+          "maximum": 600,
+          "minimum": 15,
+          "title": "Target Sec",
+          "type": "integer"
+        },
+        "reading_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reading Text"
+        },
+        "notes": {
+          "default": "",
+          "title": "Notes",
+          "type": "string"
+        },
+        "fixture": {
+          "default": false,
+          "title": "Fixture",
+          "type": "boolean"
+        },
+        "source_kind": {
+          "default": "original",
+          "enum": [
+            "original",
+            "user_summary"
+          ],
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "original_sources": {
+          "items": {
+            "$ref": "#/$defs/OriginalSource"
+          },
+          "title": "Original Sources",
+          "type": "array"
+        }
+      },
+      "title": "SourceMeta",
+      "type": "object"
+    },
+    "SourceProcessing": {
+      "additionalProperties": false,
+      "properties": {
+        "source_url": {
+          "minLength": 1,
+          "title": "Source Url",
+          "type": "string"
+        },
+        "article_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Article Sha256",
+          "type": "string"
+        },
+        "fetch": {
+          "$ref": "#/$defs/Permission"
+        },
+        "store": {
+          "$ref": "#/$defs/Permission"
+        },
+        "model_transfer": {
+          "$ref": "#/$defs/Permission"
+        }
+      },
+      "required": [
+        "source_url",
+        "article_sha256"
+      ],
+      "title": "SourceProcessing",
+      "type": "object"
+    },
+    "SourceSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Source Url"
+        },
+        "author": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Author"
+        },
+        "license": {
+          "$ref": "#/$defs/License"
+        },
+        "attribution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Attribution"
+        },
+        "text_path": {
+          "title": "Text Path",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "info_as_of": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Info As Of"
+        },
+        "collected_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Collected At"
+        },
+        "edition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Edition"
+        },
+        "sha256": {
+          "title": "Sha256",
+          "type": "string"
+        },
+        "source_kind": {
+          "default": "original",
+          "enum": [
+            "original",
+            "user_summary"
+          ],
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "original_sources": {
+          "items": {
+            "$ref": "#/$defs/OriginalSource"
+          },
+          "title": "Original Sources",
+          "type": "array"
+        }
+      },
+      "required": [
+        "source_id",
+        "source_url",
+        "author",
+        "license",
+        "attribution",
+        "text_path",
+        "text",
+        "info_as_of",
+        "collected_at",
+        "edition",
+        "sha256"
+      ],
+      "title": "SourceSnapshot",
+      "type": "object"
+    },
+    "UseAssessment": {
+      "additionalProperties": false,
+      "properties": {
+        "policy_version": {
+          "default": "facts-separation-v1",
+          "enum": [
+            "facts-separation-v1",
+            "news-attribution-v2"
+          ],
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "basis": {
+          "default": "independently_rewritten_facts",
+          "enum": [
+            "independently_rewritten_facts",
+            "facts_with_optional_attributed_opinions"
+          ],
+          "title": "Basis",
+          "type": "string"
+        },
+        "content_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        },
+        "evidence_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Evidence Sha256",
+          "type": "string"
+        },
+        "evidence_report": {
+          "minLength": 1,
+          "title": "Evidence Report",
+          "type": "string"
+        },
+        "reviewed_at": {
+          "minLength": 1,
+          "title": "Reviewed At",
+          "type": "string"
+        },
+        "reviewer": {
+          "minLength": 1,
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "evidence_verified": {
+          "title": "Evidence Verified",
+          "type": "boolean"
+        },
+        "content": {
+          "$ref": "#/$defs/ContentReview"
+        },
+        "processing": {
+          "items": {
+            "$ref": "#/$defs/SourceProcessing"
+          },
+          "minItems": 1,
+          "title": "Processing",
+          "type": "array"
+        }
+      },
+      "required": [
+        "content_sha256",
+        "evidence_sha256",
+        "evidence_report",
+        "reviewed_at",
+        "reviewer",
+        "evidence_verified",
+        "content",
+        "processing"
+      ],
+      "title": "UseAssessment",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "content_id": {
+      "title": "Content Id",
+      "type": "string"
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "string"
+    },
+    "updated_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Updated At"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "category": {
+      "enum": [
+        "C01",
+        "C02",
+        "C03",
+        "C04",
+        "C05",
+        "C06",
+        "C07",
+        "C08",
+        "C09",
+        "C10",
+        "C11",
+        "C12",
+        "C13",
+        "C14",
+        "C15",
+        "C16",
+        "C17",
+        "C18",
+        "C19",
+        "C20",
+        "C21"
+      ],
+      "title": "Category",
+      "type": "string"
+    },
+    "format": {
+      "title": "Format",
+      "type": "string"
+    },
+    "production_type": {
+      "enum": [
+        "창작·각색형",
+        "사실해설형",
+        "사실서사형",
+        "실행안내형",
+        "해석·감상형",
+        "원문낭독형"
+      ],
+      "title": "Production Type",
+      "type": "string"
+    },
+    "tags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Tags",
+      "type": "array"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    },
+    "target_sec": {
+      "title": "Target Sec",
+      "type": "integer"
+    },
+    "script": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Script",
+      "type": "array"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/SourceSnapshot"
+      },
+      "minItems": 1,
+      "title": "Sources",
+      "type": "array"
+    },
+    "material": {
+      "$ref": "#/$defs/Material"
+    },
+    "claims": {
+      "items": {
+        "$ref": "#/$defs/Claim"
+      },
+      "title": "Claims",
+      "type": "array"
+    },
+    "adaptation_note": {
+      "$ref": "#/$defs/AdaptationNote"
+    },
+    "license": {
+      "title": "License",
+      "type": "string"
+    },
+    "attribution": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Attribution"
+    },
+    "source_url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Source Url"
+    },
+    "generator": {
+      "$ref": "#/$defs/Generator"
+    },
+    "status": {
+      "enum": [
+        "ready_for_downstream_review",
+        "hold"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "rights_status": {
+      "enum": [
+        "restricted",
+        "unverified",
+        "metadata_supplied_not_legal_approval",
+        "facts_only_reviewed_not_legal_approval",
+        "attributed_news_reviewed_not_legal_approval"
+      ],
+      "title": "Rights Status",
+      "type": "string"
+    },
+    "use_assessment": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/UseAssessment"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "release_status": {
+      "anyOf": [
+        {
+          "enum": [
+            "pending_content_review",
+            "pending_processing_review",
+            "pending_editorial_approval",
+            "blocked"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Release Status"
+    },
+    "rights_notes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Rights Notes",
+      "type": "array"
+    },
+    "input_sha256": {
+      "title": "Input Sha256",
+      "type": "string"
+    },
+    "self_review": {
+      "items": {
+        "$ref": "#/$defs/ReviewRecord"
+      },
+      "title": "Self Review",
+      "type": "array"
+    },
+    "editorial_brief": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Editorial Brief",
+      "type": "array"
+    },
+    "unresolved": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unresolved",
+      "type": "array"
+    },
+    "duration": {
+      "$ref": "#/$defs/Duration"
+    },
+    "fixture": {
+      "title": "Fixture",
+      "type": "boolean"
+    },
+    "input_metadata": {
+      "$ref": "#/$defs/SourceMeta"
+    },
+    "downstream_approval": {
+      "const": "pending",
+      "title": "Downstream Approval",
+      "type": "string"
+    },
+    "tts_checked": {
+      "const": false,
+      "title": "Tts Checked",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "content_id",
+    "created_at",
+    "title",
+    "category",
+    "format",
+    "production_type",
+    "tags",
+    "version",
+    "target_sec",
+    "script",
+    "sources",
+    "material",
+    "claims",
+    "adaptation_note",
+    "license",
+    "attribution",
+    "source_url",
+    "generator",
+    "status",
+    "rights_status",
+    "input_sha256",
+    "self_review",
+    "unresolved",
+    "duration",
+    "fixture",
+    "input_metadata",
+    "downstream_approval",
+    "tts_checked"
+  ],
+  "title": "Handoff",
+  "type": "object"
+}

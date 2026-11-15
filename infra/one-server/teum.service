@@ -1,0 +1,17 @@
+# 서버 한 대에서 온에어 전체를 띄우는 systemd 사용자 서비스.
+#   cp infra/one-server/teum.service ~/.config/systemd/user/teum.service   (경로 두 곳을 서버에 맞게 고친다)
+#   systemctl --user daemon-reload && systemctl --user enable --now teum
+[Unit]
+Description=teum (API + studio + content factory)
+After=network-online.target
+
+[Service]
+Environment=TEUM_HOME=/data/teum
+ExecStart=/data/teum/venv/bin/python /path/to/hyundai_pleos_app/infra/one-server/teum_up.py up
+Restart=always
+RestartSec=5s
+KillMode=mixed
+TimeoutStopSec=20s
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "teum-issue-collector"
+version = "0.1.0"
+description = "이슈 수집 에이전트 — evidence-grounded daily issue and market collection"
+requires-python = ">=3.11"
+dependencies = ["httpx>=0.28,<0.29", "beautifulsoup4>=4.12,<5", "pydantic>=2.12,<3", "python-dotenv>=1.2,<2", "PyYAML>=6,<7", "filelock>=3.20,<5", "google-auth[requests]>=2.0,<3"]
+
+[project.scripts]
+issue-collector = "issue_collector.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "../script_agent/src"]

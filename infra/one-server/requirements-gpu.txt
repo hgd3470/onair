@@ -1,0 +1,4 @@
+# 선택: 받아쓰기 대조(Whisper)와 정제 중복 검사(sentence-transformers). 없으면 그 두 검사만 건너뛴다.
+torch
+transformers
+sentence-transformers==5.1.2

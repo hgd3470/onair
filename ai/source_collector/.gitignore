@@ -1,0 +1,14 @@
+# Local reference data, ledgers, generated sources and run evidence
+data/
+전체_소스_목록.csv
+all_sources_summary.csv
+sandbox_output/
+sandbox_library/
+source_library/
+*.log
+.env
+.env.*
+!.env.example
+.venv
+.agents/
+output/

@@ -1,0 +1,6 @@
+{
+  "policy_id": "default-v1",
+  "ad_min_ratio": 0.10,
+  "ad_max_ratio": 0.15,
+  "selected_group_min_ratio": 0.10
+}

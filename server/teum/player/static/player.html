@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>온에어 시범 플레이어</title>
+<style>
+  :root { --bg:#0f1720; --panel:#17212c; --ink:#e6edf3; --muted:#93a4b5; --accent:#f59e0b; --line:#2a3846; }
+  * { box-sizing:border-box }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; }
+  main { max-width:720px; margin:0 auto; padding:20px 16px 48px; display:grid; gap:14px }
+  h1 { font-size:20px; margin:0 } .note { color:var(--muted); font-size:13px }
+  section { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px; display:grid; gap:10px }
+  label { font-size:13px; color:var(--muted) } input, select, button { font:inherit }
+  input[type=text], input[type=number] { background:#0b1218; color:var(--ink); border:1px solid var(--line); border-radius:6px; padding:8px; width:100% }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center }
+  button { background:var(--accent); color:#1b1204; border:0; border-radius:6px; padding:8px 12px; font-weight:600; cursor:pointer }
+  button.ghost { background:transparent; color:var(--ink); border:1px solid var(--line) }
+  ol { margin:0; padding-left:20px } li.now { color:var(--accent); font-weight:600 } li.ad { color:var(--muted) }
+  pre { background:#0b1218; border:1px solid var(--line); border-radius:6px; padding:8px; overflow-x:auto; font-size:12px; margin:0; max-height:220px }
+</style>
+</head>
+<body>
+<main>
+  <div class="row" style="justify-content:space-between"><h1>온에어 시범 플레이어</h1></div>
+  <p class="note">Pleos 앱 자리를 대신하는 웹 페이지입니다. 남은 시간은 내비 대신 직접 입력하고, 음성 명령은 STT 대신 글로 입력합니다.</p>
+
+  <section>
+    <div class="row">
+      <div style="flex:1;min-width:140px"><label for="uid">사용자</label><input id="uid" type="text" readonly></div>
+      <div style="width:120px"><label for="min">남은 시간(분)</label><input id="min" type="number" value="25" min="1"></div>
+    </div>
+    <div class="row" id="ints">
+      <label><input type="checkbox" value="A" checked> 사람과 일상</label>
+      <label><input type="checkbox" value="B"> 생활과 취향</label>
+      <label><input type="checkbox" value="C" checked> 지식과 세상</label>
+      <label><input type="checkbox" value="D"> 문화·취미·이동</label>
+      <label><input type="checkbox" value="E"> 성경과 신앙</label>
+    </div>
+    <div class="row"><button id="plan">편성 받기</button><span class="note" id="planinfo"></span></div>
+    <ol id="queue"></ol>
+  </section>
+
+  <section>
+    <div id="now" style="font-weight:600"></div>
+    <div id="credit" class="note"></div>
+    <audio id="au" controls style="width:100%"></audio>
+    <div class="row">
+      <button class="ghost" id="skip">다음</button>
+      <button class="ghost" id="duck">내비 안내(모의)</button>
+      <span class="note">안내 중에는 멈추지 않고 소리를 낮춥니다(Pleos 오디오 포커스 정책).</span>
+    </div>
+  </section>
+
+  <section>
+    <label for="cmd">음성 명령(모의 STT)</label>
+    <div class="row"><input id="cmd" type="text" value="저번에 듣던 환율 얘기 이어서 들려줘" style="flex:1"><button id="say">말하기</button></div>
+    <pre id="log">명령 결과가 여기 표시됩니다.</pre>
+  </section>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const au = $("au");
+let queue = [], cur = -1, playbackId = null, newContent = false, paused = false;
+let userId = localStorage.getItem("user_id"), token = localStorage.getItem("token"), registration;
+const report = (e) => { $("log").textContent = e.message; };
+async function register() {
+  if (registration) return registration;
+  registration = (async () => {
+    const installId = localStorage.getItem("install_id") || crypto.randomUUID();
+    localStorage.setItem("install_id", installId);
+    const r = await fetch("/api/v1/devices", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ install_id: installId, app_version: "demo-0.2", platform: "web" }) });
+    if (!r.ok) throw new Error(`기기 등록 실패: ${r.status}`);
+    const device = await r.json(); userId = device.user_id; token = device.token;
+    localStorage.setItem("user_id", userId); localStorage.setItem("token", token); $("uid").value = userId;
+  })();
+  try { await registration; } finally { registration = null; }
+}
+$("uid").value = userId || "등록 중";
+const ready = token && userId ? Promise.resolve() : register();
+ready.catch(report);
+let sending = Promise.resolve();
+function send(type, extra = {}) {
+  const item = queue[cur]; if (!item || !playbackId) return Promise.resolve();
+  const seq = Number(localStorage.getItem("seq") || 0) + 1; localStorage.setItem("seq", seq);
+  const body = JSON.stringify({ event_id: crypto.randomUUID(), content_id: extra.content_id || item.content_id,
+    content_version: 1, playback_id: playbackId, seq, type, position_sec: extra.position_sec ?? au.currentTime,
+    playback_rate: au.playbackRate, client_ts: new Date().toISOString() });
+  sending = sending.then(async () => {
+    await ready;
+    const post = () => fetch("/api/v1/events", { method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` }, body });
+    let r = await post();
+    if (r.status === 401) { await register(); r = await post(); }
+    if (!r.ok) throw new Error(`이벤트 전송 실패: ${r.status}`);
+  }).catch(report);
+  return sending;
+}
+function render() {
+  $("queue").innerHTML = queue.map((it, i) =>
+    `<li class="${i === cur ? "now" : ""} ${it.kind === "ad" ? "ad" : ""}">${it.kind === "ad" ? "[광고] " : ""}${it.title} · ${Math.round(it.duration_sec)}초</li>`).join("");
+}
+function playAt(i, start = 0) {
+  playbackId = null; newContent = false; paused = false; au.pause();
+  cur = i; const it = queue[i]; render(); if (!it) return;
+  newContent = true;
+  au.src = it.audio_uri; au.currentTime = 0;
+  $("now").textContent = (it.kind === "ad" ? "[광고] " : "") + it.title;
+  $("credit").textContent = it.attribution ? `출처: ${it.attribution}${it.license ? " · " + it.license : ""}` : (it.kind === "ad" ? "" : "출처: 초기 데모 원고(이용허락 미확인, 내부 시연용)");
+  au.onloadedmetadata = () => { au.currentTime = start; au.play().catch(report); };
+  render();
+}
+const INTEREST_GROUPS = {
+  A: ["C01", "C02", "C03", "C04", "C05"],
+  B: ["C06", "C07", "C08", "C09", "C10", "C11", "C12"],
+  C: ["C13", "C14", "C15", "C16", "C17"],
+  D: ["C18", "C19", "C20"], E: ["C21"]
+};
+$("plan").onclick = async () => {
+  await ready;
+  const ints = [...document.querySelectorAll("#ints input:checked")].flatMap((x) => INTEREST_GROUPS[x.value]).join(",");
+  const r = await (await fetch(`/api/v1/playlist?user_id=${encodeURIComponent(userId)}&minutes=${$("min").value}&interests=${ints}`)).json();
+  queue = r.items; $("planinfo").textContent = `${queue.length}개 · ${Math.round(r.total_sec / 60)}분 / ${r.budget_sec / 60}분`;
+  playAt(0);
+};
+au.onplay = () => {
+  if (newContent) { playbackId = crypto.randomUUID(); newContent = false; send("play"); }
+  else if (paused) send("resume");
+  paused = false;
+};
+au.onpause = () => {
+  if (!playbackId || au.ended || paused) return;
+  send("position"); send("pause"); paused = true;
+};
+setInterval(() => { if (!au.paused && playbackId) send("position"); }, 10000);
+au.onratechange = () => { send("position"); };
+au.onended = () => { send("complete"); playAt(cur + 1); };
+$("skip").onclick = () => { send("position"); send("skip"); playAt(cur + 1); };
+$("duck").onclick = () => {
+  if (!playbackId) return;
+  const id = playbackId, v = au.volume; au.volume = 0.2; send("duck_start");
+  setTimeout(() => { au.volume = v; if (id === playbackId) send("duck_end"); }, 4000);
+};
+$("say").onclick = async () => {
+  await ready;
+  const r = await (await fetch("/api/v1/intent", { method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: $("cmd").value, user_id: userId }) })).json();
+  $("log").textContent = JSON.stringify(r, null, 2);
+  const a = r.action;
+  if (a && a.type === "play") { queue.splice(cur + 1, 0, { content_id: a.content_id, title: a.title, kind: "story", duration_sec: 0, audio_uri: a.audio_uri, attribution: a.attribution, license: a.license }); playAt(cur + 1, a.start_at_sec); }
+  if (a && a.type === "skip") $("skip").click();
+  if (a && a.type === "pause") au.pause();
+  if (a && a.type === "like") send("like");
+};
+</script>
+</body>
+</html>

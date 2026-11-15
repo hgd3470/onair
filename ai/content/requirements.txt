@@ -1,0 +1,6 @@
+numpy
+soundfile
+lameenc
+# GPU 실행기(tts_runner --model)에만 필요
+# torch  (CUDA 12.8 휠: --index-url https://download.pytorch.org/whl/cu128)
+# qwen-tts==0.1.1

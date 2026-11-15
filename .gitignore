@@ -1,0 +1,15 @@
+__pycache__/
+.venv/
+.pytest_cache/
+*.sqlite
+
+# Local-only recommendation simulations; depend on unpublished local inputs
+/server/examples/recommendation_scenarios.py
+/server/examples/compare_recommendation_scenarios.py
+/server/examples/planning_scenarios.py
+
+# 앱 데모용 카탈로그는 저장소에 둔다
+!content/demo_data/outputs/catalog.sqlite
+
+# 한 서버 실행 데이터(TEUM_HOME 기본 위치). 코드만 저장소에 둔다
+/var/

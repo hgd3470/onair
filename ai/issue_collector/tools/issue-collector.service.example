@@ -1,0 +1,12 @@
+[Unit]
+Description=이슈 수집 에이전트 (KST yesterday)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# Replace path with the deployed checkout. run.sh resolves .env locally at runtime.
+WorkingDirectory=/path/to/hyundai_pleos_app/ai/issue_collector
+ExecStart=/bin/bash /path/to/hyundai_pleos_app/ai/issue_collector/tools/run.sh collect --streams issue market --count 3
+TimeoutStartSec=3h
+UMask=0077

@@ -1,0 +1,55 @@
+# Local credentials (only the empty template is tracked)
+.env
+.env.*
+!.env.example
+# Installed tools, caches and builds
+.venv/
+.tools/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.egg-info/
+build/
+dist/
+# Mutable inputs, outputs and execution evidence
+.queue.lock
+*.lock.tmp
+input/*
+!input/.gitkeep
+processing/
+archive/
+failed/
+output/
+logs/
+experiments/
+evidence/
+handoff/
+hourly/
+matrix_*/
+review_samples_*/
+source_library/
+reports/
+REPORT.md
+# Local collection utilities, source snapshots and review runs
+scratch/
+
+# Local staging sources and batch console output
+good/
+*.log
+전체_소스_목록.csv
+all_sources_summary.csv
+# Local service-account credentials
+project-*.json
+*-sa.json
+service-account*.json
+service_account*.json
+*.pem
+*.key
+# Runtime state and migration evidence
+state/
+maintenance/
+
+# Local submission bundles and ad hoc runs
+/submission/
+/submission_*/
+/only_test/

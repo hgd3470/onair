@@ -1,0 +1,142 @@
+{
+  "case_id": "explanation",
+  "source_text": "가상 느티 도서관의 연결 시험용 운영 규정이다. 한 사람은 한 번에 책 세 권까지 빌릴 수 있다. 대출 기간은 대출일 다음 날부터 열나흘이다. 연장은 반납 기한 전에 한 번만 신청할 수 있다. 다른 이용자가 예약한 책은 연장할 수 없다. 연장 가능한 책의 연장 기간은 일주일이다. 이 규정은 실제 도서관이나 법령을 설명하지 않는다.",
+  "metadata": {
+    "source_id": "fixture-explanation",
+    "author": "S2-05 연결 시험용 자체 작성",
+    "license": {
+      "kind": "internal-test-fixture",
+      "version": "1",
+      "commercial": true,
+      "modify": true,
+      "share_alike": false,
+      "evidence": "이 프로젝트에서 연결 시험용으로 새로 작성한 텍스트; 외부 원문 아님"
+    },
+    "attribution": "S2-05 연결 시험용 자체 작성 원문. 실제 사례·기관 규정·외부 검증 자료 아님.",
+    "category": "C15",
+    "production_type": "사실해설형",
+    "target_sec": 30,
+    "fixture": true,
+    "info_as_of": null
+  },
+  "material": {
+    "production_type": "사실해설형",
+    "category": "C15",
+    "routing_reason": "제작 유형별 회귀 테스트용 명시 지정",
+    "summary": "가상 원문/자체 작성 원문을 이용한 연결 테스트",
+    "conflict": "",
+    "details": [],
+    "question": "원문을 왜곡하지 않고 들려줄 수 있는가?",
+    "facts": [
+      {
+        "id": "f1",
+        "text": "한 사람은 한 번에 책 세 권까지 빌릴 수 있다.",
+        "quote": "한 사람은 한 번에 책 세 권까지 빌릴 수 있다.",
+        "kind": "source_statement",
+        "conditions": []
+      },
+      {
+        "id": "f2",
+        "text": "대출 기간은 대출일 다음 날부터 열나흘이다.",
+        "quote": "대출 기간은 대출일 다음 날부터 열나흘이다.",
+        "kind": "source_statement",
+        "conditions": []
+      },
+      {
+        "id": "f3",
+        "text": "연장은 반납 기한 전에 한 번만 신청할 수 있다.",
+        "quote": "연장은 반납 기한 전에 한 번만 신청할 수 있다.",
+        "kind": "source_statement",
+        "conditions": []
+      },
+      {
+        "id": "f4",
+        "text": "다른 이용자가 예약한 책은 연장할 수 없다.",
+        "quote": "다른 이용자가 예약한 책은 연장할 수 없다.",
+        "kind": "source_statement",
+        "conditions": []
+      },
+      {
+        "id": "f5",
+        "text": "연장 가능한 책의 연장 기간은 일주일이다.",
+        "quote": "연장 가능한 책의 연장 기간은 일주일이다.",
+        "kind": "source_statement",
+        "conditions": []
+      }
+    ],
+    "unknowns": [],
+    "outline": [
+      "도입",
+      "근거와 전개",
+      "마무리"
+    ]
+  },
+  "draft": {
+    "title": "예약이 걸리면 대출 연장은 어떻게 될까",
+    "format": "정보형",
+    "tags": [
+      "연결테스트"
+    ],
+    "script": [
+      "빌린 책에 예약이 걸려도 일주일 더 읽을 수 있을까요?",
+      "가상 느티 도서관에서는 책을 세 권까지, 빌린 날부터 열나흘 동안 읽을 수 있습니다.",
+      "다 읽지 못했다면 기한 전에 연장을 신청하면 됩니다.",
+      "예약 여부와 상관없이 한 번은 일주일 더 빌릴 수 있죠.",
+      "그러니 예약 안내를 보더라도 연장 신청만 잊지 마세요."
+    ],
+    "claims": [
+      {
+        "sentence": 1,
+        "kind": "transition",
+        "fact_ids": []
+      },
+      {
+        "sentence": 2,
+        "kind": "fact",
+        "fact_ids": [
+          "f1",
+          "f2"
+        ]
+      },
+      {
+        "sentence": 3,
+        "kind": "fact",
+        "fact_ids": [
+          "f3"
+        ]
+      },
+      {
+        "sentence": 4,
+        "kind": "fact",
+        "fact_ids": [
+          "f4",
+          "f5"
+        ]
+      },
+      {
+        "sentence": 5,
+        "kind": "opinion",
+        "fact_ids": []
+      }
+    ],
+    "adaptation_note": {
+      "from_source": [
+        "한 사람은 한 번에 책 세 권까지 빌릴 수 있다.",
+        "대출 기간은 대출일 다음 날부터 열나흘이다.",
+        "연장은 반납 기한 전에 한 번만 신청할 수 있다.",
+        "다른 이용자가 예약한 책은 연장할 수 없다.",
+        "연장 가능한 책의 연장 기간은 일주일이다."
+      ],
+      "new": []
+    },
+    "unresolved": [],
+    "changes": []
+  },
+  "expected_issue": "대출일 다음 날 기산일과 예약 도서 연장 불가 조건 왜곡",
+  "expected_sentences": [
+    2,
+    4,
+    5
+  ],
+  "provenance": "manually_authored_adversarial_fixture_not_gemini_output"
+}

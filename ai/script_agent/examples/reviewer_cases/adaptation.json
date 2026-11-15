@@ -1,0 +1,123 @@
+{
+  "case_id": "adaptation",
+  "source_text": "연결 시험용으로 새로 쓴 가상 사연이다. 두 달 동안 친구 집에서 지낸 민수는 이사 전에 월세 절반을 내겠다고 했지만 친구가 거절했다. 민수는 몰래 송금한 뒤 친구를 차단하거나 현금 봉투를 두고 나갈까 고민했다. 송금하거나 차단한 적은 없다. 친구가 돈을 거절한 이유와 이후 결말은 아직 정하지 않았다.",
+  "metadata": {
+    "source_id": "fixture-adaptation",
+    "author": "S2-05 연결 시험용 자체 작성",
+    "license": {
+      "kind": "internal-test-fixture",
+      "version": "1",
+      "commercial": true,
+      "modify": true,
+      "share_alike": false,
+      "evidence": "이 프로젝트에서 연결 시험용으로 새로 작성한 텍스트; 외부 원문 아님"
+    },
+    "attribution": "S2-05 연결 시험용 자체 작성 원문. 실제 사례·기관 규정·외부 검증 자료 아님.",
+    "category": "C04",
+    "production_type": "창작·각색형",
+    "target_sec": 30,
+    "fixture": true,
+    "info_as_of": null
+  },
+  "material": {
+    "production_type": "창작·각색형",
+    "category": "C04",
+    "routing_reason": "제작 유형별 회귀 테스트용 명시 지정",
+    "summary": "가상 원문/자체 작성 원문을 이용한 연결 테스트",
+    "conflict": "",
+    "details": [],
+    "question": "원문을 왜곡하지 않고 들려줄 수 있는가?",
+    "facts": [
+      {
+        "id": "f1",
+        "text": "두 달 동안 친구 집에서 지낸 민수는 이사 전에 월세 절반을 내겠다고 했지만 친구가 거절했다.",
+        "quote": "두 달 동안 친구 집에서 지낸 민수는 이사 전에 월세 절반을 내겠다고 했지만 친구가 거절했다.",
+        "kind": "fiction",
+        "conditions": []
+      },
+      {
+        "id": "f2",
+        "text": "민수는 몰래 송금한 뒤 친구를 차단하거나 현금 봉투를 두고 나갈까 고민했다.",
+        "quote": "민수는 몰래 송금한 뒤 친구를 차단하거나 현금 봉투를 두고 나갈까 고민했다.",
+        "kind": "fiction",
+        "conditions": []
+      },
+      {
+        "id": "f3",
+        "text": "송금하거나 차단한 적은 없다.",
+        "quote": "송금하거나 차단한 적은 없다.",
+        "kind": "fiction",
+        "conditions": []
+      }
+    ],
+    "unknowns": [],
+    "outline": [
+      "도입",
+      "근거와 전개",
+      "마무리"
+    ]
+  },
+  "draft": {
+    "title": "고마운 친구를 차단할 뻔했다",
+    "format": "이야기형",
+    "tags": [
+      "연결테스트"
+    ],
+    "script": [
+      "고마워서 친구를 차단했습니다.",
+      "두 달 동안 친구 집에서 지내고 이사하려는데, 친구가 월세 절반도 받지 않겠다는 겁니다.",
+      "그래서 몰래 송금하고 차단까지 해 버렸죠.",
+      "친구는 돈을 돌려주려다 막힌 화면만 봤을 겁니다.",
+      "현관 앞에서 저는 차라리 먼저 물어볼 걸 그랬다고 생각했습니다."
+    ],
+    "claims": [
+      {
+        "sentence": 1,
+        "kind": "source_statement",
+        "fact_ids": [
+          "f2"
+        ]
+      },
+      {
+        "sentence": 2,
+        "kind": "source_statement",
+        "fact_ids": [
+          "f1"
+        ]
+      },
+      {
+        "sentence": 3,
+        "kind": "source_statement",
+        "fact_ids": [
+          "f2"
+        ]
+      },
+      {
+        "sentence": 4,
+        "kind": "fiction",
+        "fact_ids": []
+      },
+      {
+        "sentence": 5,
+        "kind": "fiction",
+        "fact_ids": []
+      }
+    ],
+    "adaptation_note": {
+      "from_source": [
+        "두 달 동안 친구 집에서 지낸 민수는 이사 전에 월세 절반을 내겠다고 했지만 친구가 거절했다.",
+        "민수는 몰래 송금한 뒤 친구를 차단하거나 현금 봉투를 두고 나갈까 고민했다.",
+        "송금하거나 차단한 적은 없다."
+      ],
+      "new": []
+    },
+    "unresolved": [],
+    "changes": []
+  },
+  "expected_issue": "고민한 송금·차단을 실행 사실로 바꾼 첫째·셋째 문장",
+  "expected_sentences": [
+    1,
+    3
+  ],
+  "provenance": "manually_authored_adversarial_fixture_not_gemini_output"
+}

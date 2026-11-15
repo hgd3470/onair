@@ -1,0 +1,1185 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>온에어 관리</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#fff;--ink:#0f1419;--ink2:#353c46;--muted:#5f6773;--line:#e6e8ec;--line2:#d5d9e0;--soft:#f1f3f5;--hover:#f7f8fa;
+  --accent:#3451e6;--accent-ink:#2a41bd;--accent-soft:#eef1fe;--accent-line:#c9d2fb;
+  --s1:#64748b;--s1b:#f1f3f6;--s2:#b45309;--s2b:#fff7ea;--s3:#6d28d9;--s3b:#f3effe;--s4:#1d4ed8;--s4b:#eaf1fe;--s5:#15803d;--s5b:#ecf8f0;
+  --bad:#b91c1c;--badb:#fef1f1;--good:#15803d;--dark:#0f1419;
+  --r-s:8px;--r-m:12px;--r-l:16px;
+  --sh-1:0 1px 2px rgba(15,20,25,.05);--sh-2:0 1px 2px rgba(15,20,25,.04),0 4px 14px rgba(15,20,25,.06);--sh-3:0 12px 40px rgba(15,20,25,.14),0 2px 6px rgba(15,20,25,.06);
+  --font:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 var(--font);letter-spacing:-.006em;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word;font-feature-settings:"tnum" 0}
+::selection{background:#d6ddfd;color:var(--ink)}
+a{color:var(--accent);text-underline-offset:3px}
+svg.i{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.num{font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+
+/* buttons */
+button,a.btn,label.btn{font:inherit;font-size:13px;font-weight:550;min-height:36px;padding:0 14px;border:1px solid var(--line2);border-radius:var(--r-s);background:#fff;color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:7px;box-shadow:var(--sh-1);transition:background .15s,border-color .15s,box-shadow .15s,transform .1s;white-space:nowrap}
+button:hover,a.btn:hover,label.btn:hover{background:var(--hover);border-color:#c3c8d1}
+button:active,a.btn:active,label.btn:active{transform:translateY(.5px)}
+button:disabled{opacity:.45;cursor:default;transform:none}
+.dark{background:var(--dark) !important;border-color:var(--dark) !important;color:#fff !important}
+.dark:hover:not(:disabled){background:#2a313b !important}
+.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.primary:hover:not(:disabled){background:var(--accent-ink);border-color:var(--accent-ink)}
+.ghost{border-color:transparent !important;background:transparent !important;box-shadow:none !important;color:var(--muted)}
+.ghost:hover{background:var(--soft) !important;color:var(--ink)}
+.iconbtn{width:34px;min-height:34px;padding:0}
+.muted{color:var(--muted);font-size:12.5px}
+.grow{flex:1 1 auto}
+
+/* header */
+header{position:sticky;top:0;z-index:6;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+.hin{max-width:1360px;margin:0 auto;display:flex;align-items:center;gap:6px 18px;padding:0 24px;min-height:58px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:9px;font-weight:750;font-size:16px;letter-spacing:-.02em;color:var(--ink);text-decoration:none;margin-right:6px}
+.logo .mk{width:26px;height:26px;border-radius:7px;background:var(--ink);display:grid;place-items:center}
+.logo small{font-weight:500;color:var(--muted);font-size:13px}
+nav{display:flex;gap:2px;align-self:stretch}
+nav button{border:0;box-shadow:none;background:none;font-weight:550;color:var(--muted);min-height:58px;border-radius:0;padding:0 11px;position:relative}
+nav button:hover{background:none;color:var(--ink)}
+nav button.on{color:var(--ink)}
+nav button.on::after{content:"";position:absolute;left:10px;right:10px;bottom:-1px;height:2px;border-radius:2px;background:var(--ink)}
+nav button svg{opacity:.8}
+.hright{display:flex;align-items:center;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;padding:5px 10px;border-radius:999px;background:var(--soft);color:var(--ink2);white-space:nowrap}
+.who{background:transparent;padding:3px 10px 3px 3px;border:1px solid var(--line);font-weight:600;color:var(--ink)}
+.who .av{width:24px;height:24px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-size:11.5px;font-weight:700}
+
+main{padding:28px 24px 64px;max-width:1360px;margin:0 auto}
+h1{font-size:26px;line-height:1.3;letter-spacing:-.028em;font-weight:750;margin:0;text-wrap:balance}
+h2{font-size:17px;line-height:1.4;letter-spacing:-.02em;font-weight:700;margin:0}
+.sub{color:var(--muted);margin:6px 0 0;font-size:14.5px;max-width:72ch}
+.sec{margin-top:40px}
+.sechead{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:12px}
+.sechead .cnt{font-size:13px;font-weight:600;color:var(--muted)}
+
+/* hero: my turn */
+.hero{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--sh-2);padding:26px 26px 24px}
+.herotop{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-start}
+.rolep{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:650;padding:4px 10px 4px 8px;border-radius:999px}
+.steps3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.35fr);gap:12px;margin-top:22px;counter-reset:st}
+.st{position:relative;border:1px solid var(--line);border-radius:var(--r-m);padding:16px;display:flex;flex-direction:column;gap:10px;background:#fff}
+.st+.st::before{content:"";position:absolute;left:-12px;top:30px;width:12px;height:1px;background:var(--line2)}
+.sthead{display:flex;align-items:center;gap:10px}
+.stn{width:24px;height:24px;border-radius:999px;background:var(--ink);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center;flex:none}
+.st h3{font-size:15px;font-weight:700;letter-spacing:-.015em;margin:0}
+.st p{margin:0;color:var(--ink2);font-size:13px}
+.st .kv{font-size:12.5px;color:var(--muted)}
+.st .kv b{display:block;color:var(--ink2);font-weight:600;font-size:13px;margin-top:1px}
+.st .judge{background:var(--accent-soft);border-radius:var(--r-s);padding:9px 11px;font-size:13px;color:#1e2a6b}
+.st .judge span{display:block;font-size:11.5px;font-weight:650;color:var(--accent-ink);margin-bottom:2px}
+.st .go{margin-top:auto;display:grid;gap:6px}
+.st .go>button,.st .go>a{min-height:40px;font-size:13.5px}
+.drop{border:1.5px dashed var(--line2);border-radius:var(--r-m);background:var(--hover);padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;flex:1 1 auto;min-height:118px;transition:border-color .15s,background .15s}
+.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.drop .up{width:34px;height:34px;border-radius:999px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;color:var(--ink2);box-shadow:var(--sh-1)}
+.drop .dt{font-size:13px;color:var(--ink2)}
+.drop .dacts{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.results{display:grid;gap:4px;font-size:12.5px;width:100%;text-align:left}
+.results:empty{display:none}
+.results div{padding:6px 9px;border-radius:6px}
+.results .ok{color:var(--good);background:var(--s5b)}.results .no{color:var(--bad);background:var(--badb)}
+
+/* my queue */
+.queue{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--sh-1);overflow:hidden}
+.card.mrow{all:unset;box-sizing:border-box;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;padding:14px 18px;border-top:1px solid var(--line);cursor:pointer;width:100%;transition:background .12s}
+.card.mrow:first-child,.qbar+.card.mrow{border-top:0}
+.card.mrow:hover{background:var(--hover)}
+.card.mrow:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.card.mrow.sel{background:var(--accent-soft)}
+.card.mrow .t{display:block;font-weight:600;font-size:14.5px;letter-spacing:-.012em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card.mrow .m{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;margin-top:2px}
+.card.mrow .nb{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;min-height:34px;padding:0 12px;border-radius:var(--r-s);background:var(--ink);color:#fff;white-space:nowrap}
+.card.mrow:hover .nb{background:#2a313b}
+.pickrow{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;border-top:1px solid var(--line)}
+.pickrow .card.mrow{border-top:0}
+.qbar+.pickrow,.queue>.pickrow:first-child{border-top:0}
+.pick{display:flex;align-items:center;justify-content:center;align-self:stretch;padding:0 0 0 16px;cursor:pointer}
+.pick input,.pickall input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;margin:0}
+.cpick{flex:none;display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px;align-items:start}
+.cpick .pick{padding:10px 0 0 2px;align-self:start}
+.pickall{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer;margin-right:4px}
+.qbar{display:flex;flex-wrap:wrap;gap:8px;padding:12px 18px;border-bottom:1px solid var(--line);background:var(--hover)}
+.emptyq{display:flex;gap:14px;align-items:flex-start;padding:22px 20px}
+.emptyq .ei{width:38px;height:38px;border-radius:10px;background:var(--soft);display:grid;place-items:center;color:var(--ink2);flex:none}
+.emptyq b{display:block;font-size:15px;letter-spacing:-.015em}
+.emptyq p{margin:3px 0 0;color:var(--muted);font-size:13.5px}
+
+/* status icon + tags */
+.sti{width:16px;height:16px;flex:none;display:block}
+.tag{display:inline-flex;align-items:center;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:5px;background:var(--s2b);color:var(--s2);justify-self:start;white-space:nowrap}
+.tag.bad{background:var(--badb);color:var(--bad)}
+.dot{width:3px;height:3px;border-radius:999px;background:#b5bbc4;display:inline-block}
+.mine{font-size:11px;font-weight:600;padding:1px 6px;border-radius:5px;background:var(--accent-soft);color:var(--accent-ink)}
+
+/* board */
+.board{display:grid;grid-template-columns:repeat(5,minmax(210px,1fr));gap:10px;overflow-x:auto;padding-bottom:6px;align-items:start}
+.col{background:#eef0f3;border-radius:var(--r-m);padding:6px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.colhead{display:flex;align-items:center;gap:8px;padding:8px 8px 4px}
+.colhead b{font-size:13px;font-weight:650;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.colhead .n{margin-left:auto;font-size:12px;font-weight:600;color:var(--muted)}
+.col .q{font-size:12px;color:var(--muted);padding:0 8px 4px;line-height:1.45}
+.colact{display:grid;padding:0 2px}
+.colact button{min-height:34px;font-size:12.5px}
+.colact{gap:6px}
+button.ghostbad{background:none;color:var(--bad);border-color:color-mix(in srgb,var(--bad) 40%,transparent)}
+.dropped{margin-top:12px}
+.droprow{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:6px 0;font-size:13px}
+.droprow button{min-height:30px;font-size:12.5px}
+.cards{display:flex;flex-direction:column;gap:5px;overflow:auto;max-height:440px;padding:2px}
+.card{all:unset;box-sizing:border-box;flex:none;background:#fff;border:1px solid var(--line);border-radius:9px;padding:9px 11px;cursor:pointer;display:grid;gap:3px;text-align:left;box-shadow:var(--sh-1);transition:border-color .12s,box-shadow .12s}
+.card:hover{border-color:#c3c8d1;box-shadow:var(--sh-2)}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.card.sel{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.card b{font-size:13px;font-weight:600;line-height:1.4;letter-spacing:-.01em}
+.card .m{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.colempty{font-size:12px;color:var(--muted);padding:2px 8px 8px}
+.toggle{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:550;color:var(--ink2);cursor:pointer;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:#fff}
+.toggle input{accent-color:var(--accent);margin:0;width:15px;height:15px}
+
+/* kits (other stages) */
+.kits{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.kit{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);padding:16px;display:flex;flex-direction:column;gap:8px}
+.kit.kitmine{border-color:var(--accent-line);box-shadow:0 0 0 3px var(--accent-soft)}
+.kit h3{font-size:14.5px;font-weight:700;letter-spacing:-.015em;margin:0}
+.kit p{margin:0;font-size:13px;color:var(--ink2)}
+.kit .who2{font-size:12.5px;color:var(--muted)}
+.kit .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+.kit .acts>*{flex:1 1 auto;min-height:34px;font-size:12.5px}
+
+/* drawer */
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(540px,100vw);background:#fff;box-shadow:-1px 0 0 rgba(15,20,25,.07),var(--sh-3);z-index:8;display:flex;flex-direction:column;animation:slidein .26s cubic-bezier(.16,1,.3,1)}
+.drawer[hidden]{display:none}
+@keyframes slidein{from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}}
+.dhead{padding:18px 20px 16px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:flex-start}
+.dhead h3{margin:4px 0 0;font-size:20px;line-height:1.35;letter-spacing:-.025em;font-weight:750;text-wrap:balance}
+.dbody{padding:18px 20px 32px;overflow:auto;display:grid;gap:22px;align-content:start}
+.prog{display:grid;gap:8px}
+.prog .bars{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.prog .bars i{height:4px;border-radius:2px;background:var(--line)}
+.prog .bars i.done{background:var(--ink2)}
+.prog .bars i.now{background:var(--accent)}
+.prog .pl{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--muted)}
+.prog .pl b{color:var(--ink);font-weight:650;display:inline-flex;align-items:center;gap:6px}
+.next{border:1px solid var(--accent-line);border-radius:var(--r-m);padding:16px;display:grid;gap:10px;background:linear-gradient(180deg,var(--accent-soft),#fff 80%)}
+.next>.muted{font-weight:650;color:var(--accent-ink);font-size:12px}
+.next .ask{font-size:17px;font-weight:700;letter-spacing:-.02em;line-height:1.4}
+.next button{min-height:42px;font-size:14px}
+.next .tag{white-space:normal;padding:6px 9px;font-size:12.5px;font-weight:500}
+.row2{display:flex;gap:8px;flex-wrap:wrap}.row2>*{flex:1 1 0}
+.dsec{display:grid;gap:8px}
+.dsec>h4,.f>label,.dlabel{font-size:12.5px;font-weight:600;color:var(--muted);margin:0}
+.f{display:grid;gap:6px}
+.f input,.f select,.f textarea,.next textarea,.next select,.tools input{font:inherit;font-size:13.5px;border:1px solid var(--line2);border-radius:var(--r-s);padding:9px 11px;background:#fff;width:100%;color:var(--ink);transition:border-color .15s,box-shadow .15s}
+.f input:focus,.f select:focus,.f textarea:focus,.next textarea:focus,.next select:focus,.tools input:focus,.edcol textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.f textarea,.next textarea{min-height:68px;resize:vertical}
+::placeholder{color:#6b7280}
+.ro{font-size:13.5px;white-space:pre-wrap;word-break:break-word}
+.bodyprev{white-space:pre-wrap;font-size:14px;line-height:1.75;color:var(--ink2);background:var(--hover);border:1px solid var(--line);border-radius:var(--r-m);padding:12px 14px;max-height:200px;overflow:auto}
+audio{width:100%;height:38px}
+details{border:1px solid var(--line);border-radius:var(--r-m);padding:0 14px}
+details[open]{padding-bottom:14px}
+details summary{cursor:pointer;color:var(--ink2);font-size:13.5px;font-weight:600;list-style:none;display:flex;align-items:center;gap:8px;min-height:44px}
+details summary::-webkit-details-marker{display:none}
+details summary svg{transition:transform .2s;color:var(--muted)}
+details[open] summary svg{transform:rotate(90deg)}
+details .dbody{padding:4px 0 0;gap:14px}
+.tl{display:grid;gap:0;font-size:12.5px}
+.tl div{display:grid;grid-template-columns:auto 1fr;gap:10px;padding:6px 0;color:var(--ink2)}
+.tl div::before{content:"";width:7px;height:7px;border-radius:999px;background:var(--line2);margin-top:6px}
+.tl b{font-weight:600;color:var(--ink)}
+
+/* editor */
+.editor{position:fixed;inset:0;background:rgba(15,20,25,.42);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:10;display:grid;place-items:center;padding:20px}
+.editor[hidden]{display:none}
+.edbox{background:#fff;border-radius:var(--r-l);width:min(1240px,100%);height:min(900px,100%);display:flex;flex-direction:column;box-shadow:var(--sh-3);overflow:hidden;animation:pop .22s cubic-bezier(.16,1,.3,1)}
+@keyframes pop{from{transform:scale(.985);opacity:0}to{transform:none;opacity:1}}
+.edhead{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:18px 22px;border-bottom:1px solid var(--line)}
+.edgrid{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr)}
+.edcol{display:flex;flex-direction:column;gap:8px;min-height:0;padding:18px 22px}
+.edcol+.edcol{border-left:1px solid var(--line);background:var(--hover)}
+.edcol>label,.edcol>.muted{font-size:12.5px;font-weight:600}
+.edcol textarea{flex:1 1 auto;min-height:0;font:inherit;border:1px solid var(--line);border-radius:var(--r-m);padding:16px 18px;resize:none;color:var(--ink);background:#fff}
+#edbody{font-size:16.5px;line-height:1.9;letter-spacing:-.01em}
+#edsrc{font-size:13.5px;line-height:1.7}
+#edtitle:focus{outline:none;border-bottom-color:var(--accent) !important}
+
+/* tables */
+.tablewrap{background:#fff;border:1px solid var(--line);border-radius:var(--r-m);overflow:auto;box-shadow:var(--sh-1)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-weight:600;font-size:12.5px;color:var(--muted);padding:10px 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--hover);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+tr.row{cursor:pointer}tr.row:hover td{background:var(--hover)}
+td .stc{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.search{position:relative;width:min(340px,100%)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.tools input{padding-left:34px;min-height:38px}
+
+/* voices */
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px;margin-top:20px}
+.vcard{background:#fff;border:1px solid var(--line);border-radius:var(--r-m);padding:14px;display:flex;gap:14px;align-items:center;cursor:pointer;box-shadow:var(--sh-1);transition:border-color .12s,box-shadow .12s}
+.vcard:hover{border-color:#c3c8d1;box-shadow:var(--sh-2)}
+.vcard img,.vcard .face{width:58px;height:58px;border-radius:999px;object-fit:cover;flex:none;background:var(--soft);display:grid;place-items:center;font-weight:700;color:var(--ink2);box-shadow:0 0 0 1px rgba(15,20,25,.06)}
+.vcard .vb{flex:1 1 auto;min-width:0;display:grid;gap:2px}
+.vcard .vb b{font-size:15px;letter-spacing:-.015em;display:flex;align-items:center;gap:5px}
+.vcard .star{color:#a16207;width:13px;height:13px}
+.vcard .role{color:var(--ink2);font-size:13px;font-weight:500}
+.play{width:40px;height:40px;min-height:40px;border-radius:999px;padding:0;flex:none;background:var(--ink);border-color:var(--ink);color:#fff}
+.play:hover:not(:disabled){background:#2a313b;border-color:#2a313b}
+.play svg{width:15px;height:15px}
+
+/* download panel */
+.dl{position:fixed;top:66px;right:max(16px,calc((100vw - 1360px)/2 + 24px));width:min(430px,calc(100vw - 32px));background:#fff;border-radius:var(--r-l);box-shadow:0 0 0 1px rgba(15,20,25,.07),var(--sh-3);padding:16px;z-index:9;display:grid;gap:8px;animation:pop .18s cubic-bezier(.16,1,.3,1)}
+.dl[hidden]{display:none}
+.dlrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r-m);color:var(--ink);text-decoration:none;font-size:13.5px}
+a.dlrow:hover{background:var(--hover)}
+.dlrow small{display:block;color:var(--muted);font-size:12px;font-weight:400}
+.dlrow>span:last-child{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.chipa{min-height:30px;padding:0 10px;border-radius:999px;background:var(--soft);color:var(--ink);text-decoration:none;font-size:12.5px;font-weight:550;display:inline-flex;align-items:center;white-space:nowrap}
+.chipa:hover{background:#e6e9ed}
+.dl details{border:0;padding:0}
+code{font-size:12px;background:var(--soft);padding:8px 10px;border-radius:6px;display:block;word-break:break-all;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,8px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:999px;font-size:13.5px;font-weight:500;opacity:0;transition:opacity .2s,transform .25s cubic-bezier(.16,1,.3,1);z-index:20;pointer-events:none;box-shadow:var(--sh-3)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.empty{color:var(--muted);text-align:center;padding:18px;font-size:13px}
+
+@media (max-width:1100px){
+  .steps3{grid-template-columns:1fr}.st+.st::before{left:27px;top:-12px;width:1px;height:12px}
+  .board{grid-template-columns:repeat(5,minmax(240px,1fr))}
+  .edgrid{grid-template-columns:1fr;overflow:auto}.edcol+.edcol{border-left:0;border-top:1px solid var(--line)}.edcol textarea{min-height:240px}
+}
+@media (max-width:720px){
+  .cards{max-height:300px}
+  .hin{padding:0 16px;gap:0 10px}
+  .logo small,.chip#cred,.dlbtn-t,.who .nm{display:none}
+  nav{order:3;width:100%;overflow-x:auto;scrollbar-width:none;margin:0 -6px}
+  nav button{min-height:44px;padding:0 9px;font-size:13.5px}
+  nav button svg{display:none}
+  .hright{margin-left:auto}
+  main{padding:20px 16px 48px}
+  h1{font-size:22px}
+  .hero{padding:18px 16px}
+  .card.mrow{grid-template-columns:auto minmax(0,1fr);padding:14px 16px}
+  .card.mrow .nb{grid-column:2;justify-self:start}
+  .dl{top:110px}
+  .edbox{height:100%}.editor{padding:0}.edbox{border-radius:0}
+  .edhead{padding:14px 16px}.edcol{padding:14px 16px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+
+.fx-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--sh-2);padding:18px 20px}
+.fx-state{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px}
+.fx-dot{width:10px;height:10px;border-radius:999px;background:var(--s1)}
+.fx-dot.run{background:var(--s4);box-shadow:0 0 0 4px var(--s4b)}.fx-dot.ok{background:var(--good)}.fx-dot.pause{background:var(--s2)}.fx-dot.off{background:var(--bad)}
+.fx-meta{display:flex;flex-wrap:wrap;gap:4px 18px;color:var(--muted);font-size:13px}.fx-meta b{color:var(--ink2);font-weight:600}
+.fx-act{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px}
+.fx-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px}
+.fx-st{background:#fff;border:1px solid var(--line);border-radius:var(--r-m);padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.fx-st h3{margin:0;font-size:14px;display:flex;align-items:center;gap:7px}.fx-st .stn{width:20px;height:20px;font-size:11px}
+.fx-st .big{font-size:22px;font-weight:750;letter-spacing:-.02em}.fx-st .muted{font-size:12.5px;overflow-wrap:anywhere}
+.fx-bad{color:var(--bad)!important}.fx-warn{color:var(--s2)!important}.fx-good{color:var(--good)!important}
+.fx-two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin-top:14px}
+.fx-box{background:#fff;border:1px solid var(--line);border-radius:var(--r-m);padding:14px;min-width:0}
+.fx-box h3{margin:0 0 8px;font-size:14px}.fx-box ul{margin:0;padding-left:18px;font-size:13px;color:var(--ink2)}.fx-box li{margin:2px 0;overflow-wrap:anywhere}
+@media (max-width:1000px){.fx-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.fx-two{grid-template-columns:1fr}.fx-act{margin-left:0}}
+.todo{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:start}
+@media (max-width:1000px){.todo{grid-template-columns:1fr}}
+.lf{display:grid;grid-template-columns:300px minmax(0,1fr);gap:16px;align-items:start}
+.lf-list{display:flex;flex-direction:column;gap:6px}
+.lf-item{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:3px}
+.lf-item:hover{border-color:var(--line2)}.lf-item[aria-current="true"]{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.lf-item b{font-size:13.5px;line-height:1.4}.lf-item .m{font-size:12px;color:var(--muted)}
+.lf-body{background:#fff;border:1px solid var(--line);border-radius:var(--r-l);padding:18px 20px;min-width:0}
+.lf-ln{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;padding:7px 0;border-top:1px solid var(--soft)}
+.lf-sp{font-size:12px;font-weight:700;border-radius:6px;padding:1px 7px;height:fit-content;white-space:nowrap}
+.lf-sp.A{background:var(--s4b);color:var(--s4)}.lf-sp.B{background:var(--s2b);color:var(--s2)}
+.lf-ln.flag{background:var(--badb)}.lf-note{font-size:12px;color:var(--bad);margin-top:2px}
+.lf-fx{font-size:11px;color:var(--muted);margin-left:4px}
+@media (max-width:1000px){.lf{grid-template-columns:1fr}}
+.pm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.pm-st{background:#fff;border:1px solid var(--line);border-radius:var(--r-m);padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pm-st h3{margin:0;font-size:14.5px;display:flex;align-items:center;gap:8px}.pm-st .stn{width:20px;height:20px;font-size:11px}
+.pm-st .what{font-size:12.5px;color:var(--muted);margin:0}
+.pm-m{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 8px;font-size:12.5px;border-top:1px solid var(--soft);padding-top:6px}
+.pm-m b{font-weight:600;color:var(--ink2);white-space:nowrap}.pm-m code{font-size:12px;overflow-wrap:anywhere}
+.pm-m .w{grid-column:2;color:var(--muted);font-size:11.5px;overflow-wrap:anywhere}
+.pm-ps{display:flex;flex-wrap:wrap;gap:4px}.pm-ps button{min-height:28px;font-size:12px;padding:0 9px}
+.pm-view{margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:var(--r-m);overflow:hidden}
+.pm-view header{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);position:static;background:var(--soft)}
+.pm-view pre{margin:0;padding:14px;max-height:560px;overflow:auto;white-space:pre-wrap;word-break:break-word;font-size:12.5px;line-height:1.6}
+</style>
+</head>
+<body>
+<header><div class="hin">
+<a class="logo" href="/admin/" aria-label="온에어 관리 처음으로"><span class="mk"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="1" y="2" width="5" height="10" rx="1.6" fill="#fff"/><rect x="8" y="2" width="5" height="10" rx="1.6" fill="#fff" opacity=".55"/></svg></span>온에어 <small>관리</small></a>
+<nav id="nav" aria-label="화면"></nav>
+<span class="grow"></span>
+<div class="hright">
+<span class="chip num" id="cred"></span>
+<button id="dlbtn" aria-expanded="false" aria-controls="dl"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span class="dlbtn-t">내려받기</span></button>
+<span class="chip who" id="me"></span>
+<a class="btn ghost iconbtn" href="/admin/logout" aria-label="로그아웃" title="로그아웃"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/></svg></a>
+</div>
+</div></header>
+<main id="view"></main>
+<aside class="drawer" id="drawer" hidden aria-label="상세"></aside>
+<div class="editor" id="editor" hidden></div>
+<div class="dl" id="dl" hidden>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px"><h2 style="font-size:15px">내려받기</h2><button class="ghost iconbtn" id="dlx" aria-label="닫기"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+<a class="dlrow" href="/admin/export/audio.zip"><span><b>대본 음원 전체 (zip)</b><small>지금 목소리 기준 · 대본ID__목소리.mp3</small></span><span class="chipa">받기</span></a>
+<div class="dlrow"><span><b>대본</b><small>단계 · 목소리 · 본문</small></span><span><a class="chipa" href="/admin/export/scripts.csv">엑셀(CSV)</a><a class="chipa" href="/admin/export/scripts.json">JSON</a></span></div>
+<div class="dlrow"><span><b>목소리 · 원천</b><small>라인업 10명 · 원천 76곳</small></span><span><a class="chipa" href="/admin/export/voices.csv">목소리</a><a class="chipa" href="/admin/export/sources.csv">원천</a></span></div>
+<div class="dlrow"><span><b>판정 · 기록</b><small>A/B 판정 · 누가 무엇을 바꿨는지</small></span><span><a class="chipa" href="/admin/export/ab.csv">판정</a><a class="chipa" href="/admin/export/log.csv">기록</a></span></div>
+<details><summary><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>앱 개발용</summary><code>https://api.onaircar.com/api/v1/contents · /api/v1/playlist · 로그인 없이 열림(기기 토큰은 API가 검사)</code></details>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+let D = null;
+const S = {view: 'flow', sel: null, onlyMine: false, q: '', pick: new Set()};
+const PLAYER = new Audio();
+const STAGES = [
+  {n: 1, name: '대본 쓰는 중', q: '운전 중에 끝까지 들을 이야기인가?'},
+  {n: 2, name: '제출 · 검수 대기', q: '틀린 말, 남의 글은 없나?'},
+  {n: 3, name: '검수 통과 · 음성 대기', q: '누구 목소리로 읽어야 사나?'},
+  {n: 4, name: '음성 완료 · 들어 보기', q: '이대로 운전자에게 내보낼까?'},
+  {n: 5, name: '팀 API에 게시됨', q: '들은 사람 반응은 어떤가?'},
+];
+const KITS = [
+  {kind: 'write', role: 'script', step: '1단계 · 대본 쓰기', who: '대본 담당',
+   title: '운전 중에 끝까지 들을\n이야기 찾아 쓰기',
+   desc: '원천 목록에서 소재를 고르고, 내 AI와 같이 귀로 듣기 좋은 대본을 씁니다.',
+   have: '원천 76곳(이용 등급), 기존 대본 목록, 대본 양식, 카테고리', judge: '첫 문장에서 귀가 열리나? 출처가 쓸 수 있는 곳인가?',
+   up: '대본 .json 또는 .md 파일 여러 개'},
+  {kind: 'review', role: 'refine', step: '2단계 · 대본 검수', who: '검수 담당',
+   title: '틀린 말과 남의 글\n걸러 내기',
+   desc: '제출된 대본을 AI가 먼저 훑고, 통과 여부는 사람이 정합니다.',
+   have: '제출된 대본(본문 · 출처), 원천 이용 등급, 결과 양식', judge: '사실이 출처와 맞나? 쓰면 안 되는 원천은 없나? 귀로 듣기 괜찮나?',
+   up: '검수 결과 .csv (id, 판정, 사유)'},
+  {kind: 'voice', role: 'voice', step: '3단계 · 목소리 배정', who: '음성 담당',
+   title: '이 이야기에 맞는\n목소리 찾기',
+   desc: '목소리 10명 중 1 · 2순위를 고릅니다. 사람이 A/B로 들어 본 기록이 AI의 기준이 됩니다.',
+   have: '검수 통과 대본, 목소리 10명(샘플), 지난 A/B 판정', judge: '화자의 나이와 분위기에 맞나? 한 목소리에 몰리지 않나?',
+   up: '배정 결과 .csv (id, voice, pick2, reason)'},
+];
+const KIT_STAGE = {write: 1, review: 2, voice: 3};
+const ICON = {
+  flow: '<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M8 7.5v7M12 7.5v4M16 7.5v9"/>',
+  file: '<path d="M14 3H6.5A1.5 1.5 0 0 0 5 4.5v15A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/>',
+  mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/>',
+  book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  pkg: '<path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5"/><path d="M12 13v8"/>',
+  copy: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/>',
+  up: '<path d="M12 20V9"/><path d="m7 13 5-5 5 5"/><path d="M5 4h14"/>',
+  x: '<path d="M6 6l12 12M18 6 6 18"/>',
+  chev: '<path d="m9 6 6 6-6 6"/>',
+  arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  pen: '<path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  inbox: '<path d="M3 13h5l1.5 3h5L16 13h5"/><path d="M5.5 5h13L21 13v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-6z"/>',
+  hourglass: '<path d="M6 3h12M6 21h12"/><path d="M7 3v3a5 5 0 0 0 10 0V3M7 21v-3a5 5 0 0 1 10 0v3"/>',
+  zap: '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+  fileplus: '<path d="M14 3H6.5A1.5 1.5 0 0 0 5 4.5v15A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V8z"/><path d="M14 3v5h5"/><path d="M12 12v6M9 15h6"/>',
+  play: '<path d="M8 5.6v12.8a.6.6 0 0 0 .92.5l9.9-6.4a.6.6 0 0 0 0-1L8.92 5.1A.6.6 0 0 0 8 5.6z" fill="currentColor" stroke="none"/>',
+  pause: '<rect x="6.5" y="5" width="4" height="14" rx="1.2" fill="currentColor" stroke="none"/><rect x="13.5" y="5" width="4" height="14" rx="1.2" fill="currentColor" stroke="none"/>',
+  star: '<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9z" fill="currentColor"/>',
+  check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8"/>',
+};
+const ic = (k, extra = '') => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true" ${extra}>${ICON[k]}</svg>`;
+const SCOL = ['', 'var(--s1)', 'var(--s2)', 'var(--s3)', 'var(--s4)', 'var(--s5)'];
+function stIcon(n) {
+  n = Number(n); const c = SCOL[n] || 'var(--s1)';
+  if (n === 5) return `<svg class="sti" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="${c}"/><path d="m5 8.2 2 2 4-4.2" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  if (n === 1) return `<svg class="sti" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="${c}" stroke-width="1.6" stroke-dasharray="2.4 2.2"/></svg>`;
+  const frac = (n - 1) / 4, C = 2 * Math.PI * 3;
+  return `<svg class="sti" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="${c}" stroke-width="1.6"/><circle cx="8" cy="8" r="3" fill="none" stroke="${c}" stroke-width="6" stroke-dasharray="${(frac * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(-90 8 8)"/></svg>`;
+}
+function toast(t) { const el = $('toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('show'), 2400); }
+const isAdmin = () => D && D.me.roles.includes('admin');
+const nameOf = (id) => (D.names[id] || id || '').replace(/^(김|이|강|정)/, '');
+const kitMine = (k) => D.me.roles.includes(k.role) || (k.kind === 'voice' && isAdmin());
+
+async function load() {
+  const r = await fetch('/admin/api/data');
+  if (r.status === 401) { location.href = '/admin/login'; return; }
+  D = await r.json();
+  $('me').innerHTML = `<span class="av">${esc((D.me.name || '?').slice(1, 2) || D.me.name[0])}</span><span class="nm">${esc(D.me.name)}</span>`;
+  $('me').title = D.me.name;
+  const c = D.credits;
+  $('cred').innerHTML = ic('zap') + `오늘 합성 ${c.today_used.toLocaleString()} / ${c.today_limit.toLocaleString()}` + (c.typecast_left != null ? ` · 남은 크레딧 ${c.typecast_left.toLocaleString()}` : '');
+  renderNav(); render();
+  if (D.jobs.running) setTimeout(load, 4000);
+}
+
+function renderNav() {
+  const tabs = [['flow', '홈', 'flow'], ['scripts', '대본 전체', 'file'], ['voices', '목소리', 'mic'], ['sources', '원천', 'book'], ['factory', '자동 생산', 'zap'], ['longform', '롱폼', 'mic'], ['feedback', '피드백', 'pen'], ['models', '모델·프롬프트', 'book'], ['archive', '음성 보관함', 'pkg'], ['log', '기록', 'clock']];
+  $('nav').innerHTML = tabs.map(([k, t, i]) => `<button class="${S.view === k ? 'on' : ''}" data-v="${k}" ${S.view === k ? 'aria-current="page"' : ''}>${ic(i)}${t}</button>`).join('');
+  $('nav').querySelectorAll('button').forEach((b) => b.onclick = () => { S.view = b.dataset.v; S.q = ''; renderNav(); render(); });
+}
+
+function render() {
+  if (S.view !== 'factory') clearTimeout(FX.timer);
+  ({flow: renderFlow, scripts: renderScripts, voices: renderVoices, sources: renderSources, factory: renderFactory, archive: renderArchive, longform: renderLongform, feedback: renderFeedback, models: renderModels, log: renderLog})[S.view]();
+  renderDrawer();
+}
+
+/* ---------- 업무 흐름 ---------- */
+function myQueue() {
+  const r = D.me.roles, me = D.me.id;
+  const voiceSide = r.includes('voice') || r.includes('admin');
+  const list = D.scripts.filter((s) =>
+    (r.includes('script') && s.owner === me && (s.stage === 1 || s.refine_status === '수정 필요')) ||
+    (r.includes('refine') && s.stage === 2) ||
+    (voiceSide && (s.stage === 3 || s.stage === 4)));
+  const fix = (s) => (s.refine_status === '수정 필요' ? 0 : 1);
+  return list.sort((a, b) => fix(a) - fix(b) || a.stage - b.stage);
+}
+
+function nextLabel(s) {
+  if (s.refine_status === '수정 필요' && s.stage <= 1) return '고치고 다시 제출';
+  if (s.stage === 1) return '열고 제출';
+  if (s.stage === 2) return '검수하기';
+  if (s.stage === 3) return !s.voice ? '목소리 고르기' : isAdmin() ? '음성 만들기' : '목소리 확인';
+  if (s.stage === 4) return '듣고 팀 API에 게시';
+  return '열기';
+}
+
+function waitNote() {
+  const r = D.me.roles, me = D.me.id, cnt = (f) => D.scripts.filter(f).length;
+  const lines = [];
+  if (r.includes('script')) {
+    const inReview = cnt((s) => s.owner === me && s.stage === 2), inVoice = cnt((s) => s.owner === me && (s.stage === 3 || s.stage === 4));
+    if (inReview) lines.push({t: `지금은 검수 담당의 검수를 기다리는 중입니다 · ${inReview}편`, d: '검수가 끝나면 통과한 대본은 목소리 단계로 넘어가고, 고칠 대본은 여기로 돌아옵니다.'});
+    else if (inVoice) lines.push({t: `내 대본 ${inVoice}편이 목소리 단계에 있습니다`, d: '음성 담당이 목소리를 붙이는 중입니다. 그동안 새 대본을 쓰면 됩니다.'});
+    else lines.push({t: '새 대본을 쓸 차례입니다', d: '위의 ① → ② → ③ 순서대로 하면 대본이 여기와 흐름판 1단계에 나타납니다.'});
+  }
+  if (r.includes('refine')) {
+    const writing = cnt((s) => s.stage === 1);
+    lines.push({t: '검수할 대본이 없습니다', d: `대본 담당이 대본을 제출하면 여기에 뜹니다.${writing ? ` 지금 쓰는 중인 대본 ${writing}편.` : ''}`});
+  }
+  if (r.includes('voice') || r.includes('admin')) {
+    const review = cnt((s) => s.stage === 2);
+    lines.push({t: review ? `지금은 검수 담당의 검수를 기다리는 중입니다 · ${review}편` : '목소리를 붙일 대본이 없습니다', d: '검수를 통과한 대본이 여기에 뜹니다. 목소리를 고르고, 음성을 만들고, 들어 본 뒤 앱에 추가합니다.'});
+  }
+  return lines[0] || {t: '처리할 것이 없습니다', d: ''};
+}
+
+/* ---------- 대본 여러 편 한 번에 제출 (11/9) ---------- */
+const canSubmit = (s) => s.stage === 1 && s.state !== 'invalid';
+const pickBox = (s) => `<label class="pick" title="한 번에 제출할 대본으로 고르기"><input type="checkbox" data-pick="${esc(s.id)}" ${S.pick.has(s.id) ? 'checked' : ''} aria-label="${esc(s.title)} 고르기"></label>`;
+function submitBar(list) {
+  const ids = list.filter(canSubmit).map((s) => s.id);
+  if (ids.length < 2) return '';
+  const n = ids.filter((id) => S.pick.has(id)).length;
+  return `<label class="pickall"><input type="checkbox" data-pickall="${esc(ids.join(','))}" ${n === ids.length ? 'checked' : ''}> 모두 고르기</label>
+    <button class="dark" data-bulk="submit" ${n ? '' : 'disabled'}>${ic('arrow')}고른 대본 ${n}편 제출</button>`;
+}
+function bindPick(root) {
+  root.querySelectorAll('[data-pick]').forEach((c) => {
+    c.onclick = (e) => e.stopPropagation();
+    c.onchange = () => { c.checked ? S.pick.add(c.dataset.pick) : S.pick.delete(c.dataset.pick); renderFlow(); };
+  });
+  root.querySelectorAll('[data-pickall]').forEach((c) => c.onchange = () => {
+    c.dataset.pickall.split(',').forEach((id) => (c.checked ? S.pick.add(id) : S.pick.delete(id))); renderFlow();
+  });
+  root.querySelectorAll('[data-bulk="submit"]').forEach((b) => b.onclick = submitPicked);
+}
+async function submitPicked() {
+  const list = D.scripts.filter((s) => S.pick.has(s.id) && canSubmit(s));
+  if (!list.length) return;
+  if (!confirm(`대본 ${list.length}편을 제출합니다. 제목 · 본문이 확정된 것만 골랐는지 확인해 주세요.\n\n${list.map((s) => '· ' + s.title).join('\n')}`)) return;
+  let ok = 0;
+  for (const s of list) {
+    const j = await post('/admin/api/update', {tbl: 'scripts', id: s.id, field: 'script_status', value: '제출'});
+    if (j) { ok++; S.pick.delete(s.id); }
+  }
+  toast(ok === list.length ? `${ok}편 제출했습니다` : `${ok}편 제출 · ${list.length - ok}편 안 됨`);
+  await load();
+}
+
+function renderFlow() {
+  const cnt = (n) => D.scripts.filter((s) => s.stage === n).length;
+  const roles = D.me.roles;
+  const kit = null;  // 11/14: 사람 손 단계(자료 꾸러미)는 쓰지 않는다. 자동 생산이 대신한다
+  const voiceSide = roles.includes('voice') || roles.includes('admin');
+  const queue = kit ? myQueue() : [];
+  const bulkInQueue = (n) => (n === 3 ? isAdmin() : voiceSide) && cnt(n) > 0;  // 할 일 칸에 버튼이 있으면 흐름판에는 두지 않는다
+
+  const synthBtn = () => {
+    const ready = D.scripts.filter((s) => s.stage === 3 && s.voice);
+    const need = ready.reduce((a, s) => a + (s.chars || 0), 0);
+    return D.jobs.running ? `<button class="dark" disabled>만드는 중 · 남은 ${D.jobs.queue.length}편</button>`
+      : `<button class="dark" id="synthAll" ${ready.length ? '' : 'disabled'}>${ic('mic')}음성 만들기 ${ready.length}편 · 약 ${need.toLocaleString()} 크레딧</button>`;
+  };
+  const addBtn = (n) => `<button class="primary" id="addAll" ${n ? '' : 'disabled'}>${ic('check')}들어 본 것 모두 팀 API에 게시</button>`;
+
+  /* --- 홈: 자동 생산 한 줄 + 사람이 할 일 (11/14) --- */
+  const hero = `<section><h1>온에어 제작</h1>
+    <p class="sub">대본은 AI가 수집 → 작성 → 검수 → 음성까지 자동으로 만듭니다. 사람은 아래 '할 일'만 처리하면 됩니다.</p>
+    <div class="fx-bar" id="homefx" style="margin-top:16px"><span class="fx-state"><span class="fx-dot"></span>자동 생산 상태 불러오는 중…</span></div></section>`;
+  const fixList = D.scripts.filter((s) => s.refine_status === '수정 필요' || s.state === 'invalid' || s.state === 'tts_failed' || s.state === 'failed' || (s.stt && s.stt.flag));
+  const groups = [
+    {t: '듣고 게시', d: '음성이 완성됐습니다. 열어서 들어 보고 이상 없으면 게시하세요. 게시하면 차량 앱 목록에 올라갑니다.', list: D.scripts.filter((s) => s.stage === 4), btn: voiceSide && cnt(4) ? addBtn(cnt(4)) : ''},
+    {t: '음성 대기', d: D.auto && D.auto.on ? '자동 합성이 켜져 있어 하루 한도 안에서 저절로 만듭니다. 급하면 바로 만들 수 있습니다.' : '목소리를 확인하고 음성을 만드세요.', list: D.scripts.filter((s) => s.stage === 3), btn: isAdmin() && cnt(3) ? synthBtn() : ''},
+    {t: '사람 확인 필요', d: '검수에서 수정 필요로 나왔거나 오류가 난 대본입니다. 열어서 고치거나 제외하세요.', list: fixList, btn: ''},
+  ];
+  const queueHtml = `<section class="sec" aria-labelledby="qh"><div class="sechead"><h2 id="qh">할 일</h2><span class="grow"></span><span class="muted">누르면 오른쪽에서 열립니다. 듣기 · 목소리 · 게시 · 제외를 그 안에서 합니다.</span></div>
+    <div class="todo">${groups.map((g) => `<section class="col"><div class="colhead"><b>${g.t}</b><span class="n num">${g.list.length}편</span></div>
+      <div class="q">${g.d}</div>${g.btn ? `<div class="colact">${g.btn}</div>` : ''}
+      ${g.list.length ? `<div class="cards">${g.list.slice(0, 30).map(cardHtml).join('')}</div>${g.list.length > 30 ? `<div class="muted" style="padding:4px 8px;font-size:12px">외 ${g.list.length - 30}편은 '대본 전체'에서</div>` : ''}` : '<div class="colempty">없음</div>'}</section>`).join('')}</div></section>`;
+
+  /* --- full board --- */
+  const board = STAGES.map((st) => {
+    let list = D.scripts.filter((s) => s.stage === st.n);
+    if (S.onlyMine) list = list.filter(isMine);
+    let act = '';
+    if (st.n === 3 && isAdmin() && !bulkInQueue(3)) act = synthBtn();
+    if (st.n === 4 && !bulkInQueue(4)) act = list.length ? addBtn(list.length) : '';
+    const colPick = st.n === 1 && !(kit && submitBar(queue)) ? submitBar(list) : '';
+    if (colPick) act = colPick;
+    if (st.n <= 2) {
+      const by = {};
+      list.filter(canDrop).forEach((s) => { (by[s.owner] = by[s.owner] || []).push(s.id); });
+      const drops = Object.entries(by).map(([o, ids]) => `<button class="ghostbad" data-dropids="${ids.join(',')}" data-droplabel="${esc(nameOf(o))}님이 올린 ${st.n}단계 대본">${esc(nameOf(o))} ${ids.length}편 제외…</button>`).join('');
+      if (drops) act = (act || '') + drops;
+    }
+    return `<section class="col" aria-label="${st.n}. ${st.name}"><div class="colhead">${stIcon(st.n)}<b>${st.n}. ${st.name}</b><span class="n num">${list.length}</span></div>
+      <div class="q">${st.q}</div>
+      ${act ? `<div class="colact">${act}</div>` : ''}
+      ${list.length ? `<div class="cards">${list.map((s) => (colPick && canSubmit(s) ? `<div class="cpick">${pickBox(s)}${cardHtml(s)}</div>` : cardHtml(s))).join('')}</div>` : '<div class="colempty">없음</div>'}</section>`;
+  }).join('');
+  const j = D.jobs;
+  const jobNote = j.running || j.done.length || j.failed.length
+    ? `<span class="chip">음성 만들기: 완료 ${j.done.length} · 실패 ${j.failed.length}${j.running ? ` · 남음 ${j.queue.length}` : ''}</span>${j.failed.map((f) => `<span class="chip" style="color:var(--bad)">${esc(f)}</span>`).join('')}` : '';
+  const boardHtml = `<section class="sec" aria-labelledby="bh"><div class="sechead"><h2 id="bh">전체 흐름 (단계별)</h2><span class="cnt num">${D.scripts.length}편</span><span class="grow"></span>
+      ${jobNote}<label class="toggle"><input type="checkbox" id="onlyMine" ${S.onlyMine ? 'checked' : ''}> 내 것만</label></div>
+    <div class="board">${board}</div>${droppedHtml()}</section>`;
+
+  $('view').innerHTML = hero + queueHtml + boardHtml;
+  homeStatus();
+  $('view').querySelectorAll('[data-copy]').forEach((b) => b.onclick = () => copyPrompt(b.dataset.copy));
+  document.querySelectorAll('.card').forEach((c) => c.onclick = () => { S.sel = {tbl: 'scripts', id: c.dataset.id}; render(); });
+  $('onlyMine').onchange = (e) => { S.onlyMine = e.target.checked; renderFlow(); };
+  $('view').querySelectorAll('[data-dropids]').forEach((b) => b.onclick = () => dropScripts(b.dataset.dropids.split(','), b.dataset.droplabel));
+  $('view').querySelectorAll('[data-restoreids]').forEach((b) => b.onclick = () => restoreScripts(b.dataset.restoreids.split(',')));
+  if ($('synthAll')) $('synthAll').onclick = () => synth();
+  if ($('addAll')) $('addAll').onclick = () => addToApp();
+  bindPick($('view'));
+  bindDrop();
+}
+
+async function homeStatus() {
+  const r = await fetch('/admin/api/factory');
+  if (!r.ok || S.view !== 'flow' || !$('homefx')) return;
+  const d = await r.json(), now = d.now, last = d.runs[0], col = d.collect.collector;
+  const state = !d.enabled ? ['off', '자동 생산 꺼짐'] : !d.alive ? ['off', '자동 생산 루프가 멈춰 있음'] : d.running ? ['run', '자동 생산 돌아가는 중'] : d.paused ? ['pause', '자동 생산 일시정지'] : ['ok', '자동 생산 켜짐'];
+  const colErr = col ? Object.values(col.streams).map((s) => s.error).filter(Boolean) : [];
+  const conn = (r) => r && /스튜디오에 연결할 수 없습니다/.test(r.error || '');
+  const transient = () => conn(last) && !conn(d.runs[1]);  // 한 번만 난 연결 오류(재시작 순간)는 숨기고, 두 바퀴 연속이면 보인다
+  const prob = (last && ((!transient() && last.error) || last.gen_blocked || (last.collect && last.collect.error))) || (colErr.length ? '최근 수집 실패: ' + colErr.map((e) => COLLECT_ERR[e] || e).join(', ') : '');
+  $('homefx').innerHTML = `<span class="fx-state"><span class="fx-dot ${state[0]}"></span>${state[1]}</span>
+    <span class="fx-meta"><span>입력함 소재 <b>${d.inbox_count}개</b></span><span>다음 수집 <b>${d.config.collect ? (d.collect.next ? fxIn(d.collect.next - now) : '다음 바퀴') : '꺼짐'}</b></span><span>최근 수집 <b>${col ? `${Number(col.date.slice(4, 6))}/${Number(col.date.slice(6, 8))} 소재 · ${esc({complete: '완료', partial: '일부 실패', failed: '실패'}[col.status] || col.status)}` : '-'}</b></span></span>
+    <span class="fx-act"><button id="gofx">${ic('zap')}자동 생산 자세히</button></span>
+    ${prob ? `<span class="fx-bad" style="font-size:13px;flex-basis:100%">${esc(String(prob).slice(-200))}</span>` : ''}`;
+  $('gofx').onclick = () => { S.view = 'factory'; renderNav(); render(); };
+}
+
+function fixLink() {
+  const n = D.scripts.filter((s) => s.refine_status === '수정 필요').length;
+  return n ? `<a class="btn" href="/admin/feedback.json" download title="파일 이름과 검수 의견을 묶은 JSON입니다. 고친 대본을 같은 파일 이름으로 올리면 그 대본에 반영되고 다시 검수 대기로 넘어갑니다">${ic('pkg')}검수 의견 받기 (수정 필요 ${n}편)</a>` : '';
+}
+
+function dropHtml(withTemplate) {
+  return `<div class="drop" id="drop"><span class="up">${ic('up')}</span>
+    <span class="dt">여기에 끌어 놓거나 파일을 고르세요<br><span class="muted">.json · .md · .csv · .zip 여러 개 한 번에 · 파일 이름이 같으면 그 대본에 덮어씀</span></span>
+    <span class="dacts"><label class="btn dark" for="files">${ic('up')}파일 고르기</label>${withTemplate ? `<a class="btn" href="/admin/template.md" download>${ic('fileplus')}빈 대본 양식</a>` : ''}</span>
+    <input id="files" type="file" multiple accept=".json,.md,.csv,.zip" hidden><div class="results" id="results"></div></div>`;
+}
+
+function isMine(s) {
+  const r = D.me.roles;
+  return s.owner === D.me.id || (r.includes('refine') && s.stage === 2) || (r.includes('voice') && s.stage === 3) || (r.includes('admin') && s.stage >= 3);
+}
+
+function tagsOf(s) {
+  const tags = [];
+  if (s.refine_status === '수정 필요') tags.push('<span class="tag bad">수정 필요</span>');
+  if (s.audio_stale) tags.push('<span class="tag">음원 다시</span>');
+  if (s.state === 'invalid') tags.push('<span class="tag bad">대본 오류</span>');
+  if (s.stage === 3 && s.hold_src) tags.push('<span class="tag">출처 확인 뒤 합성</span>');
+  else if (s.stage === 3 && !s.voice) tags.push('<span class="tag">목소리 미배정</span>');
+  if (s.stage === 4 && s.stt && s.stt.flag) tags.push('<span class="tag bad">받아쓰기 확인</span>');
+  return tags;
+}
+
+function cardHtml(s) {
+  const tags = tagsOf(s);
+  return `<button class="card ${S.sel && S.sel.id === s.id ? 'sel' : ''}" data-id="${esc(s.id)}"><b>${esc(s.title)}</b>
+    <span class="m">${esc(s.topic_name)} · ${esc(s.voice || '목소리 없음')} · ${esc(nameOf(s.owner))}</span>${tags.length ? `<span style="display:flex;gap:4px;flex-wrap:wrap">${tags.join('')}</span>` : ''}</button>`;
+}
+
+function queueRow(s) {
+  const tags = tagsOf(s);
+  return `<button class="card mrow ${S.sel && S.sel.id === s.id ? 'sel' : ''}" data-id="${esc(s.id)}">${stIcon(s.stage)}
+    <span style="min-width:0"><span class="t">${esc(s.title)}</span>
+    <span class="m"><span>${s.stage}. ${STAGES[s.stage - 1].name}</span><i class="dot"></i><span>${esc(s.topic_name)}</span><i class="dot"></i><span>${esc(s.voice || '목소리 없음')}</span><i class="dot"></i><span>${esc(nameOf(s.owner))}</span>${tags.join('')}</span></span>
+    <span class="nb">${esc(nextLabel(s))}${ic('arrow')}</span></button>`;
+}
+
+async function copyPrompt(kind) {
+  const t = await (await fetch('/admin/prompt/' + kind)).text();
+  try { await navigator.clipboard.writeText(t); toast('프롬프트를 복사했습니다. 내 AI에 붙여 넣으세요'); }
+  catch (e) { const w = window.open('', '_blank'); w.document.write('<pre style="white-space:pre-wrap">' + esc(t) + '</pre>'); }
+}
+
+function bindDrop() {
+  const d = $('drop');
+  if (!d) return;
+  ['dragenter', 'dragover'].forEach((e) => d.addEventListener(e, (ev) => { ev.preventDefault(); d.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach((e) => d.addEventListener(e, (ev) => { ev.preventDefault(); d.classList.remove('over'); }));
+  d.addEventListener('drop', (ev) => upload([...ev.dataTransfer.files]));
+  $('files').onchange = (ev) => upload([...ev.target.files]);
+}
+
+async function upload(files) {
+  if (!files.length) return;
+  $('results').innerHTML = '<span class="muted">올리는 중…</span>';
+  const enc = (f) => new Promise((ok) => { const r = new FileReader(); r.onload = () => ok({name: f.name, b64: r.result.split(',')[1]}); r.readAsDataURL(f); });
+  const payload = await Promise.all(files.map(enc));
+  const r = await fetch('/admin/api/upload_files', {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify({files: payload})});
+  const j = await r.json().catch(() => ({}));
+  const html = (j.results || []).map((x) => `<div class="${x.ok ? 'ok' : 'no'}">${x.ok ? '반영' : '안 됨'} · ${esc(x.file)} · ${esc(x.msg)}</div>`).join('') || esc(j.detail || '올리지 못했습니다');
+  await load();
+  $('results').innerHTML = html;
+}
+
+async function post(url, body) {
+  const r = await fetch(url, {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify(body || {})});
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) { toast(j.detail || '안 됨'); return null; }
+  return j;
+}
+/* 대본 제외(드랍) */
+const canDrop = (s) => (s.stage === 1 || s.stage === 2) && (isAdmin() || s.owner === D.me.id);
+async function dropScripts(ids, label) {
+  if (!ids.length) return;
+  const reason = prompt(`${label} ${ids.length}편을 제외합니다.\n화면, 자료 꾸러미, 자동 처리에서 빠지고 '제외한 대본'에서 되돌릴 수 있습니다.\n\n사유 (선택, 기록에 남음)`, '');
+  if (reason === null) return;
+  const j = await post('/admin/api/drop', {ids, reason});
+  if (j) { toast(`${j.done}편 제외${j.skipped ? ` · ${j.skipped}편은 단계나 권한 때문에 건너뜀` : ''}`); if (S.sel && ids.includes(S.sel.id)) S.sel = null; load(); }
+}
+async function restoreScripts(ids) {
+  if (!confirm(`${ids.length}편을 제외하기 전 단계로 되돌립니다. 진행할까요?`)) return;
+  const j = await post('/admin/api/drop', {ids, restore: true});
+  if (j) { toast(`${j.done}편 되돌림${j.skipped ? ` · ${j.skipped}편 건너뜀` : ''}`); load(); }
+}
+function droppedHtml() {
+  const d = D.dropped || [];
+  if (!d.length) return '';
+  const g = {};
+  d.forEach((x) => { const k = `${x.by}|${new Date(x.at * 1000).toLocaleDateString('ko-KR')}|${x.reason}`; (g[k] = g[k] || []).push(x); });
+  const rows = Object.entries(g).map(([k, xs]) => {
+    const [by, day, reason] = k.split('|');
+    return `<div class="droprow"><span><b class="num">${xs.length}편</b> · ${esc(day)} ${esc(nameOf(by))} 제외${reason ? ` · ${esc(reason)}` : ''}<span class="muted"> · 예: ${esc(xs[0].title)}</span></span>
+      <button data-restoreids="${xs.map((x) => x.id).join(',')}">되돌리기</button></div>`;
+  }).join('');
+  return `<details class="dropped"><summary>${ic('chev')}제외한 대본 <span class="num">${d.length}편</span></summary><div class="dbody">${rows}</div></details>`;
+}
+async function synth(ids) {
+  const ready = ids || D.scripts.filter((s) => s.stage === 3 && s.voice).map((s) => s.id);
+  if (!confirm(`${ready.length}편 음성을 만듭니다. Typecast 크레딧이 듭니다. 진행할까요?`)) return;
+  const j = await post('/admin/api/synth', {ids: ready});
+  if (j) { toast(`${j.queued}편 음성 만들기 시작 · 약 ${j.credits.toLocaleString()} 크레딧`); load(); }
+}
+async function addToApp(ids) {
+  const j = await post('/admin/api/add', {ids: ids || []});
+  if (j) { toast(`${j.added.length}편 팀 API에 게시 · ${j.api_restart ? '다시 읽음' : '다시 읽기 실패'}`); load(); }
+}
+async function save(tbl, id, f, value) {
+  const j = await post('/admin/api/update', {tbl, id, field: f, value});
+  if (j) { toast(j.warn || '저장했습니다'); await load(); }
+}
+
+/* ---------- 서랍(상세) ---------- */
+function renderDrawer() {
+  const el = $('drawer');
+  if (!S.sel) { el.hidden = true; return; }
+  const {tbl, id} = S.sel;
+  const row = D[tbl].find((x) => x.id === id);
+  if (!row) { el.hidden = true; return; }
+  const wasHidden = el.hidden;
+  el.hidden = false;
+  let head = '', body = '';
+  if (tbl === 'scripts') {
+    head = `<span class="muted">${esc(row.id)} · ${esc(row.topic_name)} · ${esc(row.format)}</span><h3>${esc(row.title)}</h3>`;
+    body += `<div class="prog"><div class="pl"><b>${stIcon(row.stage)}${row.stage}. ${STAGES[row.stage - 1].name}</b><span class="num">${row.stage} / 5 단계</span></div>
+      <div class="bars">${STAGES.map((st) => `<i class="${st.n === row.stage ? 'now' : st.n < row.stage ? 'done' : ''}" title="${st.n}. ${st.name}"></i>`).join('')}</div></div>`;
+    body += nextBox(row);
+    body += `<div class="dsec"><span class="dlabel num">대본 · ${(row.body || '').split('\n').filter(Boolean).length}줄 · ${row.chars}자 · 쓴 사람 ${esc(nameOf(row.owner))}</span>
+      <div class="bodyprev">${esc(row.body)}</div><button id="openbody">${ic('pen')}대본 전체 열고 고치기</button>
+      <button class="ghost" data-fb-target="${esc(row.id)}" style="margin-left:6px">이 대본으로 피드백 남기기</button></div>`;
+    if (row.audio) body += `<div class="dsec"><span class="dlabel">지금 음원 · ${esc(row.voice)}</span><audio controls preload="none" src="${row.audio}"></audio></div>`;
+    body += `<div class="dsec">`;
+    if (row.audio2) body += abBox(row);
+    body += `<details><summary>${ic('chev')}목소리 · 진행 칸 고치기</summary><div class="dbody">${['voice', 'pick2', 'voice_reason', 'script_status', 'refine_status', 'refine_memo', 'script_memo', 'app_status'].map((f) => field(tbl, row, f)).join('')}</div></details></div>`;
+  } else if (tbl === 'sources') {
+    head = `<span class="muted">${esc(row.id)}</span><h3>${esc(row.name)}</h3>`;
+    body += `<div class="f"><label>주소</label><div class="ro"><a href="${esc(row.url)}" target="_blank" rel="noopener">${esc(row.url)}</a></div></div>`;
+    body += ['grade', 'credit', 'rights_check', 'usage_memo', 'memo'].map((f) => field(tbl, row, f)).join('');
+  } else {
+    head = `<div style="display:flex;gap:14px;align-items:center">${row.img ? `<img src="${row.img}" alt="" style="width:60px;height:60px;border-radius:999px;object-fit:cover;box-shadow:0 0 0 1px rgba(15,20,25,.06)">` : ''}<div><span class="muted">${esc(row.tc_category)}</span><h3>${row.star ? '★ ' : ''}${esc(row.name)}</h3></div></div>`;
+    if (row.sample) body += `<audio controls preload="none" src="${row.sample}"></audio>`;
+    body += ['role', 'tc_category', 'memo'].map((f) => field(tbl, row, f)).join('');
+    const mine = D.scripts.filter((s) => s.voice === row.name);
+    body += `<div class="f"><label>맡은 대본 ${mine.length}편</label><div class="ro">${mine.map((s) => esc(s.title)).join('\n') || '없음'}</div></div>`;
+  }
+  body += `<div class="f"><label for="cm">의견 남기기</label><textarea id="cm" placeholder="이 항목에 대한 의견"></textarea><button id="cmb" style="justify-self:end">의견 저장</button></div>`;
+  const ts = D.log.filter((l) => l.id === id).slice(0, 12);
+  const plain = ['의견', '올리기', '음성 만들기', '검수', '앱에 추가', '단계'];
+  if (ts.length) body += `<div class="dsec"><span class="dlabel">기록</span><div class="tl">${ts.map((l) => `<div><span><b>${esc(nameOf(l.user))}</b> · ${esc(LABEL[l.field] || l.field)}: ${plain.includes(l.field) ? '' : esc(String(l.old).slice(0, 40)) + ' → '}${esc(String(l.new).slice(0, 80))}</span></div>`).join('')}</div></div>`;
+  el.innerHTML = `<div class="dhead"><div style="flex:1 1 auto;min-width:0">${head}</div><button class="ghost iconbtn" id="dclose" aria-label="닫기">${ic('x')}</button></div><div class="dbody">${body}</div>`;
+  if (!wasHidden) el.style.animation = 'none'; else el.style.animation = '';
+  $('dclose').onclick = () => { S.sel = null; render(); };
+  el.querySelectorAll('[data-f]').forEach((inp) => inp.onchange = () => save(tbl, id, inp.dataset.f, inp.value));
+  if ($('openbody')) $('openbody').onclick = () => openEditor(row);
+  el.querySelectorAll('[data-do]').forEach((b) => b.onclick = () => act(row, b.dataset.do));
+  el.querySelectorAll('[data-ab]').forEach((b) => b.onclick = () => judge(row, b.dataset.ab));
+  $('cmb').onclick = async () => { const t = $('cm').value.trim(); if (!t) return; if (await post('/admin/api/comment', {tbl, id, text: t})) { toast('의견을 남겼습니다'); load(); } };
+}
+
+function sttBox(s) {
+  const r = s.stt;
+  if (!r) return '<span class="muted" style="font-size:13px">받아쓰기 대조 중이거나 아직 안 했습니다.</span>';
+  if (r.error) return `<span class="muted" style="font-size:13px">받아쓰기 대조 실패: ${esc(r.error)}</span>`;
+  const pct = (r.cer * 100).toFixed(1);
+  const rows = (r.diffs || []).map((d) => `<li>대본 <b>${esc(d[0] || '(없음)')}</b> → 들린 말 <b>${esc(d[1] || '(없음)')}</b></li>`).join('');
+  return `<div class="${r.flag ? 'tag bad' : 'muted'}" style="font-size:13px;display:block">받아쓰기(Whisper) 대조: 글자 ${pct}% 다름${r.flag ? ' · 이 부분을 꼭 들어 보세요' : ''}` +
+    (rows ? `<ul style="margin:4px 0 0;padding-left:18px">${rows}</ul>` : '') + '</div>';
+}
+
+function nextBox(s) {
+  const q = STAGES[s.stage - 1].q;
+  let b = '';
+  if (s.stage === 1) b = `<button class="dark" data-do="submit">${ic('arrow')}제목 · 본문 확정하고 제출</button>`;
+  if (s.stage === 2) b = `<textarea id="why2" placeholder="수정 필요하면 어느 줄을 왜 (작성자에게 보임)"></textarea><div class="row2"><button class="dark" data-do="pass">검수 통과</button><button data-do="fix">수정 필요</button></div>`;
+  if (s.stage === 3) b = `<select id="v3" data-f="voice" aria-label="목소리"><option value="">목소리 고르기</option>${D.voices.map((v) => `<option ${v.name === s.voice ? 'selected' : ''}>${esc(v.name)}</option>`).join('')}</select>` +
+    `<span class="muted" style="font-size:13px">${s.hold_src ? '출처(인스타그램 각색) 확인이 남아 자동으로 만들지 않습니다.' : '검수를 통과하면 주제 기본 목소리로 자동 배정하고, 하루 한도 안에서 음성을 자동으로 만듭니다. 목소리를 바꾸려면 위에서 고르세요.'}</span>` +
+    (isAdmin() ? `<button class="dark" data-do="synth" ${s.voice ? '' : 'disabled'}>${ic('mic')}지금 바로 음성 만들기 · 약 ${s.chars} 크레딧</button>` : '');
+  if (s.stage === 4) b = sttBox(s) + `<div class="row2"><button class="primary" data-do="add">들어 봤어요 · 팀 API에 게시</button>${isAdmin() ? '<button data-do="resynth">다시 만들기</button>' : ''}</div>`;
+  if (s.stage === 5) b = `<span class="muted" style="font-size:13px">팀 API(api.onaircar.com/api/v1)에 게시됐습니다. 차량 앱은 이 주소에 연결했을 때 보입니다. 본문이나 목소리를 바꾸면 다시 음성 단계로 돌아갑니다.</span>`;
+  const memo = s.refine_status === '수정 필요' && s.refine_memo ? `<div class="tag bad">검수 의견: ${esc(s.refine_memo)}</div>` : '';
+  const err = s.last_error && !['published', 'approved', 'tts_done'].includes(s.state) ? `<div class="tag bad">${esc(s.last_error)}</div>` : '';
+  if (canDrop(s)) b += `<button class="ghostbad" data-do="drop">이 대본 제외</button>`;
+  return `<div class="next"><span class="muted">지금 판단할 것</span><span class="ask">${esc(q)}</span>${memo}${err}${b}</div>`;
+}
+
+async function act(s, what) {
+  if (what === 'submit') return save('scripts', s.id, 'script_status', '제출');
+  if (what === 'pass') { if ($('why2').value.trim()) await post('/admin/api/update', {tbl: 'scripts', id: s.id, field: 'refine_memo', value: $('why2').value}); return save('scripts', s.id, 'refine_status', '통과'); }
+  if (what === 'fix') {
+    if (!$('why2').value.trim()) { toast('어느 줄을 왜 고쳐야 하는지 적어 주세요'); return; }
+    await post('/admin/api/update', {tbl: 'scripts', id: s.id, field: 'refine_memo', value: $('why2').value});
+    await post('/admin/api/update', {tbl: 'scripts', id: s.id, field: 'script_status', value: '수정 중'});
+    return save('scripts', s.id, 'refine_status', '수정 필요');
+  }
+  if (what === 'synth') return synth([s.id]);
+  if (what === 'resynth') { await post('/admin/api/update', {tbl: 'scripts', id: s.id, field: 'voice_status', value: '다시 만들기'}); return synth([s.id]); }
+  if (what === 'add') return addToApp([s.id]);
+  if (what === 'drop') return dropScripts([s.id], `'${s.title}'`);
+}
+
+function abBox(s) {
+  return `<details><summary>${ic('chev')}A/B 듣기 · ${esc(s.voice)} vs ${esc(s.pick2)}</summary><div class="dbody">
+    <div class="row2"><div class="f"><label>A ${esc(s.voice)}</label><audio controls preload="none" src="${s.audio}"></audio></div><div class="f"><label>B ${esc(s.pick2)}</label><audio controls preload="none" src="${s.audio2}"></audio></div></div>
+    <div class="row2">${['A', 'B', '넘기기', '빼기'].map((c) => `<button data-ab="${c}">${c.length === 1 ? c + '가 낫다' : c}</button>`).join('')}</div>
+    <div class="f"><textarea id="why" placeholder="왜 (목소리 배정 AI의 기준으로 쌓임)" aria-label="A/B 판정 이유"></textarea></div></div></details>`;
+}
+async function judge(s, choice) {
+  if (await post('/admin/api/ab', {script_id: s.id, a: s.voice, b: s.pick2, choice, why: $('why').value})) { toast('판정 저장: ' + choice); load(); }
+}
+
+const LABEL = {factory: '자동 생산', role: '담당', tc_category: 'Typecast 분류', memo: '메모', title: '제목', script_status: '대본 상태', script_memo: '대본 메모', voice: '목소리', pick2: '2순위 목소리',
+  voice_status: '목소리 상태', voice_reason: '목소리 근거', refine_status: '검수 판정', refine_memo: '검수 의견', app_status: 'API 게시', grade: '이용 등급', credit: '출처 표시 문구',
+  rights_check: '저작권 확인', usage_memo: '가공 방식 메모', body: '본문', source_note: '출처', owner: '쓴 사람'};
+const CHOICES = {script_status: ['초안', '제출', '수정 중'], refine_status: ['', '통과', '수정 필요'], app_status: ['', '적재 전', '적재됨'],
+  rights_check: ['', '확인함', '다시 확인', '쓰면 안 됨'], voice_status: ['배정 전', '배정', 'A/B 대기', '확정', '다시 만들기']};
+function field(tbl, row, f) {
+  const own = (D.mine[tbl] || []).includes(f) ? ' <span class="mine">내 담당</span>' : '';
+  const v = row[f] ?? '';
+  let input;
+  if (f === 'voice' || f === 'pick2') input = `<select id="f_${f}" data-f="${f}"><option value=""></option>${D.voices.map((x) => `<option ${x.name === v ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}</select>`;
+  else if (CHOICES[f]) { const o = CHOICES[f].includes(v) ? CHOICES[f] : [...CHOICES[f], v]; input = `<select id="f_${f}" data-f="${f}">${o.map((x) => `<option ${x === v ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>`; }
+  else if (/memo|reason|credit/.test(f)) input = `<textarea id="f_${f}" data-f="${f}">${esc(v)}</textarea>`;
+  else input = `<input id="f_${f}" data-f="${f}" value="${esc(v)}">`;
+  return `<div class="f"><label for="f_${f}">${LABEL[f] || f}${own}</label>${input}</div>`;
+}
+
+function openEditor(row) {
+  const ed = $('editor');
+  ed.innerHTML = `<div class="edbox" role="dialog" aria-modal="true" aria-label="대본 편집">
+    <div class="edhead"><div style="flex:1 1 auto;min-width:0"><span class="muted">${esc(row.id)} · ${esc(row.topic_name)} · ${esc(row.voice || '목소리 없음')}</span>
+      <input id="edtitle" value="${esc(row.title)}" aria-label="제목" style="display:block;width:100%;font:inherit;font-size:22px;font-weight:750;letter-spacing:-.025em;border:0;border-bottom:1px solid transparent;padding:4px 0;margin-top:2px;color:var(--ink);background:transparent"></div>
+      <div style="display:flex;gap:8px;flex:none"><button id="edclose">닫기</button><button class="dark" id="edsave">${ic('check')}저장</button></div></div>
+    <div class="edgrid"><div class="edcol"><label class="muted" for="edbody">낭독 본문 · 한 줄 = 한 문장 · 이 글이 그대로 음성이 됩니다 · <span id="edcount" class="num"></span></label><textarea id="edbody">${esc(row.body)}</textarea></div>
+    <div class="edcol"><label class="muted" for="edsrc">출처와 작성 범위</label><textarea id="edsrc">${esc(row.source_note)}</textarea>
+    ${row.audio ? `<label class="muted">지금 음원 (${esc(row.voice)})</label><audio controls preload="none" src="${row.audio}"></audio>` : ''}
+    <span class="muted" style="font-weight:400">제출 · 검수 뒤에 제목이나 본문을 바꾸면 다시 제출해야 합니다.</span></div></div></div>`;
+  ed.hidden = false;
+  const count = () => { const t = $('edbody').value; $('edcount').textContent = `${t.split('\n').filter(Boolean).length}줄 · ${t.replace(/\s/g, '').length}자`; };
+  $('edbody').oninput = count; count();
+  const close = () => { ed.hidden = true; ed.innerHTML = ''; };
+  $('edclose').onclick = close;
+  ed.onclick = (e) => { if (e.target === ed) close(); };
+  $('edsave').onclick = async () => {
+    if ($('edtitle').value !== (row.title || '')) await post('/admin/api/update', {tbl: 'scripts', id: row.id, field: 'title', value: $('edtitle').value});
+    if ($('edbody').value !== (row.body || '')) await post('/admin/api/update', {tbl: 'scripts', id: row.id, field: 'body', value: $('edbody').value});
+    if ($('edsrc').value !== (row.source_note || '')) await post('/admin/api/update', {tbl: 'scripts', id: row.id, field: 'source_note', value: $('edsrc').value});
+    close(); toast('저장했습니다'); load();
+  };
+}
+
+/* ---------- 표 화면들 ---------- */
+function tools(ph) { return `<div class="tools"><div class="search">${ic('search')}<input id="q" placeholder="${ph}" value="${esc(S.q)}" aria-label="찾기"></div></div>`; }
+function bindQ(fn) { const q = $('q'); q.oninput = () => { S.q = q.value; fn(); const n = $('q'); n.focus(); n.setSelectionRange(n.value.length, n.value.length); }; }
+const pageHead = (t, sub) => `<div style="margin-bottom:20px"><h1>${t}</h1>${sub ? `<p class="sub">${sub}</p>` : ''}</div>`;
+function renderScripts() {
+  const q = S.q.trim();
+  const list = D.scripts.filter((s) => !q || (s.title + s.id + s.topic_name + (s.body || '') + (s.voice || '')).includes(q));
+  $('view').innerHTML = pageHead(`대본 <span class="muted num" style="font-size:18px;font-weight:600">${D.scripts.length}</span>`, '') + tools('제목 · 본문 · 목소리로 찾기') + `<div class="tablewrap"><table><thead><tr><th>대본</th><th>분류</th><th>단계</th><th>목소리</th><th>쓴 사람</th><th>길이</th></tr></thead><tbody>` +
+    list.map((s) => `<tr class="row" data-id="${esc(s.id)}"><td style="font-weight:550">${esc(s.title)}</td><td class="muted">${esc(s.topic_name)}</td><td><span class="stc">${stIcon(s.stage)}${s.stage}. ${STAGES[s.stage - 1].name}</span></td><td>${esc(s.voice)}</td><td>${esc(nameOf(s.owner))}</td><td class="muted num">${s.duration_sec ? Math.round(s.duration_sec) + '초' : ''}</td></tr>`).join('') + '</tbody></table></div>';
+  document.querySelectorAll('tr.row').forEach((tr) => tr.onclick = () => { S.sel = {tbl: 'scripts', id: tr.dataset.id}; renderDrawer(); });
+  bindQ(renderScripts);
+}
+function renderSources() {
+  const q = S.q.trim();
+  const list = D.sources.filter((s) => !q || (s.name + s.id + s.types + s.grade).includes(q));
+  $('view').innerHTML = pageHead(`원천 <span class="muted num" style="font-size:18px;font-weight:600">${D.sources.length}</span>`, '') + tools('원천 이름 · 등급 · 유형으로 찾기') + `<div class="tablewrap"><table><thead><tr><th>ID</th><th>원천</th><th>이용 등급</th><th>유형</th><th>확인</th></tr></thead><tbody>` +
+    list.map((s) => `<tr class="row" data-id="${esc(s.id)}"><td class="muted">${esc(s.id)}</td><td style="font-weight:550">${esc(s.name)}</td><td>${esc(s.grade)}</td><td class="muted">${esc(s.types)}</td><td>${esc(s.rights_check)}</td></tr>`).join('') + '</tbody></table></div>';
+  document.querySelectorAll('tr.row').forEach((tr) => tr.onclick = () => { S.sel = {tbl: 'sources', id: tr.dataset.id}; renderDrawer(); });
+  bindQ(renderSources);
+}
+function renderVoices() {
+  const n = {}; D.scripts.forEach((s) => { n[s.voice] = (n[s.voice] || 0) + 1; });
+  $('view').innerHTML = pageHead(`목소리 <span class="muted num" style="font-size:18px;font-weight:600">${D.voices.length}명</span>`, '카드를 누르면 맡은 대본과 메모가 열리고, 재생 버튼은 그 목소리 음원을 들려줍니다.') + `<div class="vgrid">` + D.voices.map((v) =>
+    `<div class="vcard" data-v="${esc(v.name)}" role="button" tabindex="0">${v.img ? `<img src="${v.img}" alt="">` : `<span class="face">${esc(v.name[0])}</span>`}
+    <span class="vb"><b>${v.star ? `<svg class="star" viewBox="0 0 24 24" aria-label="추천">${ICON.star}</svg>` : ''}${esc(v.name)}</b><span class="role">${esc(v.role)}</span><span class="muted">${esc(v.tc_category)}${v.rank ? ' · 인기 ' + esc(v.rank) + '위' : ''} · 대본 ${n[v.name] || 0}편</span></span>
+    <button class="play" data-play="${esc(v.sample)}" aria-label="${esc(v.name)} 듣기" ${v.sample ? '' : 'disabled'}>${ic('play')}</button></div>`).join('') + '</div>';
+  const setIcon = (b, k) => { b.innerHTML = ic(k); };
+  document.querySelectorAll('[data-play]').forEach((b) => b.onclick = (e) => {
+    e.stopPropagation();
+    if (PLAYER.dataset.src === b.dataset.play && !PLAYER.paused) { PLAYER.pause(); setIcon(b, 'play'); return; }
+    document.querySelectorAll('[data-play]').forEach((x) => setIcon(x, 'play'));
+    PLAYER.src = b.dataset.play; PLAYER.dataset.src = b.dataset.play; PLAYER.play(); setIcon(b, 'pause');
+    PLAYER.onended = () => { setIcon(b, 'play'); };
+  });
+  document.querySelectorAll('.vcard').forEach((c) => { c.onclick = () => { S.sel = {tbl: 'voices', id: c.dataset.v}; renderDrawer(); }; c.onkeydown = (e) => { if (e.key === 'Enter') c.click(); }; });
+}
+
+/* ---------- 자동 생산 (factory 현황과 조작) ---------- */
+const FX = {timer: null, d: null};
+const fxT = (x) => x ? new Date(x * 1000).toLocaleString('ko-KR', {month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'}) : '-';
+const fxIn = (sec) => { if (sec == null) return '-'; sec = Math.round(sec); if (sec <= 0) return '곧'; const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60); return (h ? h + '시간 ' : '') + m + '분 뒤'; };
+const COLLECT_ERR = {invalid_structured_output: 'Gemini 답 형식이 맞지 않음', incomplete_or_blocked: 'Gemini 답이 잘렸거나 막힘', auth_failed: '키 인증 실패'};
+function fxCollectText(c) {
+  if (!c) return '';
+  if (c.collector === 'batch_pending') return `Gemini 배치 대기 · ${fxIn(c.retry_in_sec)} 다시 확인`;
+  if (c.collector_exit != null) return c.collector_exit === 0 ? '수집 완료' : `수집 실패 (종료 코드 ${c.collector_exit})`;
+  if (c.next_collect_in_sec != null) return '수집 주기 아님';
+  return '';
+}
+async function renderFactory() {
+  clearTimeout(FX.timer);
+  if (!FX.d) $('view').innerHTML = pageHead('자동 생산', '') + '<p class="empty">불러오는 중…</p>';
+  const r = await fetch('/admin/api/factory');
+  if (r.status === 401) { location.href = '/admin/login'; return; }
+  if (S.view !== 'factory') return;
+  const d = FX.d = await r.json();
+  const now = d.now, cfg = d.config, last = d.runs[0];
+  const state = !d.enabled ? ['off', '꺼짐 (TEUM_FACTORY=0)'] : !d.alive ? ['off', '루프가 멈춰 있음'] : d.running ? ['run', '돌아가는 중'] : d.paused ? ['pause', '일시정지'] : ['ok', '켜짐 · 다음 바퀴 대기'];
+  const admin = isAdmin();
+  const btn = (a, label, icon, cls = '') => `<button class="${cls}" data-fx="${a}" ${admin ? '' : 'disabled title="운영 담당만 조작할 수 있습니다"'}>${ic(icon)}${label}</button>`;
+  const col = d.collect.collector;
+  const colErr = col ? Object.entries(col.streams).filter(([, s]) => s.error).map(([k, s]) => `${k === 'issue' ? '시사' : '시장'}: ${COLLECT_ERR[s.error] || s.error}`) : [];
+  const today = d.runs.filter((x) => x.ts.slice(0, 10) === new Date(now * 1000).toLocaleDateString('sv-SE'));
+  const sum = (f) => today.reduce((a, x) => a + f(x), 0);
+  const rv = {pass: sum((x) => x.review.pass), revise: sum((x) => x.review.revise), human: sum((x) => x.review.human)};
+  const stage = (n, title, big, lines) => `<div class="fx-st"><h3><span class="stn">${n}</span>${title}</h3><div class="big num">${big}</div>${lines.filter(Boolean).map((l) => `<div class="muted">${l}</div>`).join('')}</div>`;
+  const conn = (r) => r && /스튜디오에 연결할 수 없습니다/.test(r.error || '');
+  const lastErr = last && ((!(conn(last) && !conn(d.runs[1])) && last.error) || last.gen_blocked || (last.collect && last.collect.error));
+  $('view').innerHTML = pageHead('자동 생산', '수집 → 생성 → 검수 → 음성 → 게시가 혼자 도는 모습입니다. 15초마다 새로 읽습니다.') +
+    `<div class="fx-bar"><span class="fx-state"><span class="fx-dot ${state[0]}"></span>${state[1]}</span>
+      <span class="fx-meta"><span>마지막 바퀴 <b>${last ? esc(last.ts.slice(5, 16)) : '-'}</b></span>
+      <span>다음 바퀴 <b>${d.run_requested ? '요청됨 · 곧' : d.paused ? '일시정지' : fxIn((d.loop.next_at || now) - now)}</b></span>
+      <span>다음 수집 <b>${cfg.collect ? (d.collect.next ? fxIn(d.collect.next - now) : '다음 바퀴') : '수집 꺼짐'}</b></span></span>
+      <span class="fx-act">${btn('run_now', '지금 한 바퀴', 'play', 'primary')}${btn('collect_now', '수집부터 다시', 'inbox')}${d.paused ? btn('resume', '다시 시작', 'play') : btn('pause', '일시정지', 'pause')}</span></div>` +
+    (lastErr ? `<p class="fx-bad" style="margin:10px 2px 0;font-size:13px">최근 문제: ${esc(String(lastErr).slice(-240))}</p>` : '') +
+    `<div class="fx-grid">` +
+    stage(1, '수집', col ? esc(col.status === 'complete' ? '완료' : col.status === 'partial' ? '일부 실패' : col.status === 'failed' ? '실패' : col.status) : '-', [
+      col ? `최근 실행 ${esc(col.date)} · ${esc(col.run_id)}` : '아직 실행 기록 없음',
+      ...colErr.map((e) => `<span class="fx-bad">${esc(e)}</span>`),
+      `마지막 수집 ${fxT(d.collect.last)}`, cfg.collect ? (cfg.collect_at ? `매일 ${esc(cfg.collect_at)} 수집 · 다음 ${fxT(d.collect.next)}` : `${Math.round(cfg.collect_interval / 3600)}시간마다 5편 목표`) : '<span class="fx-warn">수집 명령 없음</span>']) +
+    stage(2, '생성', `${sum((x) => x.generated)}<span class="muted" style="font-size:13px"> 편 오늘</span>`, [
+      `입력함 대기 ${d.inbox_count} · 이어 갈 작업 ${d.jobs}`, `작성 ${esc(cfg.generator)} · 자체 검토 ${esc(cfg.reviewer)}`, `한 바퀴 최대 ${cfg.max_generate}편`,
+      last && last.gen_blocked ? `<span class="fx-bad">${esc(last.gen_blocked)}</span>` : '']) +
+    stage(3, '검수', `${rv.pass}<span class="muted" style="font-size:13px"> 통과 오늘</span>`, [
+      `수정 ${rv.revise} · 사람 확인 ${rv.human}`, `모델 ${esc(cfg.refine)}`, `오늘 검수 비용 $${Number(last ? last.cost_usd : 0).toFixed(2)}`]) +
+    stage(4, '음성', cfg.auto_voice ? '자동' : '사람', [cfg.auto_voice ? `검수 통과하면 바로 합성 · 하루 ${cfg.daily_credits.toLocaleString()}자` : '사람이 사이트에서 합성',
+      D && D.credits ? `오늘 합성 ${D.credits.today_used.toLocaleString()}자` : '']) +
+    stage(5, '게시', cfg.auto_publish ? '자동' : '사람', [cfg.auto_publish ? '받아쓰기 대조 통과 시 자동 게시' : '사람이 듣고 게시', `오늘 게시 ${sum((x) => x.published)}편`]) +
+    `</div><div class="fx-two">
+      <div class="fx-box"><h3>입력함 소재 ${d.inbox_count}개</h3>${d.inbox.length ? `<ul>${d.inbox.map((f) => `<li>${esc(f.name)} <span class="muted">${fxT(f.at)}</span></li>`).join('')}</ul>` : '<p class="empty" style="padding:6px">대기 중인 소재가 없습니다. 수집이 끝나면 여기에 들어옵니다.</p>'}</div>
+      <div class="fx-box"><h3>사람 확인으로 넘긴 대본 ${d.items.human.length}편 <span class="muted" style="font-weight:500">· 자동 생성 누적 ${d.items.own}편</span></h3>${d.items.human.length ? `<ul>${d.items.human.map((h) => `<li><b>${esc(h.id)}</b> ${esc(h.why)}</li>`).join('')}</ul>` : '<p class="empty" style="padding:6px">없습니다.</p>'}</div>
+    </div>
+    <div class="sec" style="margin-top:22px"><div class="sechead"><h2 style="margin:0;font-size:17px">최근 바퀴</h2><span class="muted" style="font-size:13px">무슨 일이 있던 바퀴만 굵게 보입니다</span></div>
+    <div class="tablewrap"><table><thead><tr><th>시각</th><th>① 수집</th><th>② 생성</th><th>제출</th><th>③ 검수 (통과·수정·사람)</th><th>⑤ 게시</th><th>문제</th></tr></thead><tbody>` +
+    (d.runs.map((x) => {
+      const busy = x.generated || x.submitted || x.review.pass || x.review.revise || x.review.human || x.published || x.error || (x.collect && (x.collect.collector_exit != null || x.collect.collector));
+      const prob = [x.error, x.gen_blocked, x.collect && x.collect.error, x.submit_errors ? `제출 오류 ${x.submit_errors}` : '', x.review.errors ? `검수 오류 ${x.review.errors}` : '', x.skipped].filter(Boolean).join(' · ');
+      return `<tr style="${busy ? 'font-weight:600' : 'color:var(--muted)'}"><td class="num">${esc(x.ts.slice(5, 16))}</td><td>${esc(fxCollectText(x.collect))}</td><td class="num">${x.generated || ''}</td><td class="num">${x.submitted || ''}${x.held ? ` (보류 ${x.held})` : ''}</td>
+        <td class="num">${x.review.pass + x.review.revise + x.review.human ? `${x.review.pass} · ${x.review.revise} · ${x.review.human}` : ''}</td><td class="num">${x.published || ''}</td><td class="fx-bad" style="font-weight:500;max-width:360px;overflow-wrap:anywhere">${esc(prob.slice(-220))}</td></tr>`;
+    }).join('') || '<tr><td colspan="7" class="empty">아직 돈 기록이 없습니다</td></tr>') + '</tbody></table></div></div>';
+  document.querySelectorAll('[data-fx]').forEach((b) => b.onclick = async () => {
+    const a = b.dataset.fx;
+    const ask = {run_now: '지금 한 바퀴를 돌립니다. 입력함에 소재가 있으면 Gemini·GPT·Claude·Typecast 비용이 나갑니다. 진행할까요?',
+      collect_now: '수집 주기를 무시하고 지금 수집부터 다시 합니다. Gemini 비용이 나가고, 이어서 생성·검수·음성까지 갈 수 있습니다. 진행할까요?',
+      pause: '자동 생산을 멈춥니다. 지금 돌고 있는 바퀴는 끝까지 갑니다. 멈출까요?', resume: null}[a];
+    if (ask && !confirm(ask)) return;
+    b.disabled = true;
+    const j = await post('/admin/api/factory/action', {action: a});
+    if (j) toast({run_now: '한 바퀴를 요청했습니다. 몇 초 안에 시작합니다', collect_now: '수집부터 다시 돌립니다', pause: '일시정지했습니다', resume: '다시 시작했습니다'}[a]);
+    renderFactory();
+  });
+  FX.timer = setTimeout(function tickFx() { if (S.view !== 'factory') return; if (document.visibilityState === 'visible') renderFactory(); else FX.timer = setTimeout(tickFx, 15000); }, 15000);
+}
+
+/* ---------- 음성 보관함 (A100 지난 실험·합성 음성) ---------- */
+const AR = {run: '', q: '', off: 0, d: null};
+const mb = (b) => b >= 1e9 ? (b / 1e9).toFixed(1) + 'GB' : (b / 1e6).toFixed(1) + 'MB';
+async function renderArchive() {
+  const u = new URLSearchParams({run: AR.run, q: AR.q, offset: AR.off, limit: 100});
+  const r = await fetch('/admin/api/archive?' + u);
+  if (r.status === 401) { location.href = '/admin/login'; return; }
+  if (S.view !== 'archive') return;
+  const d = AR.d = await r.json();
+  const page = Math.floor(AR.off / 100) + 1, pages = Math.max(1, Math.ceil(d.matched / 100));
+  $('view').innerHTML = pageHead(`음성 보관함 <span class="muted num" style="font-size:18px;font-weight:600">${d.total.toLocaleString()}개 · ${mb(d.bytes)}</span>`,
+      'A100에서 옮겨 온 지난 실험과 합성 음성입니다. 대본·앱 목록과 연결되지 않은 보관용이며, 라이선스 확인 전 시연 음원이 섞여 있어 팀 밖으로 공유하지 않습니다.') +
+    `<div class="tools" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+      <select id="arRun" aria-label="실행 고르기" style="min-height:36px;border:1px solid var(--line2);border-radius:var(--r-s);padding:0 10px;font:inherit;max-width:100%"><option value="">실행 전체 (${d.runs.length}개)</option>${d.runs.map((x) => `<option value="${esc(x.run)}" ${x.run === AR.run ? 'selected' : ''}>${esc(x.run)} · ${x.count.toLocaleString()}개 · ${mb(x.bytes)}</option>`).join('')}</select>
+      <input id="arQ" type="search" placeholder="파일 이름·경로로 찾기 (예: w1-c01, speaker)" value="${esc(AR.q)}" style="flex:1 1 260px;min-height:36px;border:1px solid var(--line2);border-radius:var(--r-s);padding:0 12px;font:inherit">
+      <span class="muted num" style="align-self:center;font-size:13px">${d.matched.toLocaleString()}개 중 ${d.matched ? AR.off + 1 : 0}–${Math.min(AR.off + 100, d.matched)}</span></div>
+    <div class="tablewrap"><table><thead><tr><th style="width:48px"></th><th>파일</th><th>실행</th><th>크기</th></tr></thead><tbody>` +
+    (d.items.map((x) => `<tr><td><button class="play" data-ar="${x.i}" aria-label="${esc(x.name)} 듣기">${ic('play')}</button></td>
+      <td style="overflow-wrap:anywhere"><b style="font-weight:600">${esc(x.name)}</b><div class="muted" style="font-size:12px">${esc(x.path.split('/').slice(2, -1).join('/'))}</div></td>
+      <td class="muted" style="font-size:12.5px;overflow-wrap:anywhere">${esc(x.run)}</td><td class="num muted">${mb(x.bytes)}</td></tr>`).join('') || '<tr><td colspan="4" class="empty">맞는 파일이 없습니다</td></tr>') +
+    `</tbody></table></div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:12px"><button id="arPrev" ${AR.off ? '' : 'disabled'}>이전</button><span class="muted num" style="align-self:center">${page} / ${pages}</span><button id="arNext" ${AR.off + 100 < d.matched ? '' : 'disabled'}>다음</button></div>`;
+  $('arRun').onchange = (e) => { AR.run = e.target.value; AR.off = 0; renderArchive(); };
+  let t; $('arQ').oninput = (e) => { clearTimeout(t); t = setTimeout(() => { AR.q = e.target.value.trim(); AR.off = 0; renderArchive().then(() => { const q = $('arQ'); q.focus(); q.setSelectionRange(q.value.length, q.value.length); }); }, 300); };
+  $('arPrev').onclick = () => { AR.off = Math.max(0, AR.off - 100); renderArchive(); };
+  $('arNext').onclick = () => { AR.off += 100; renderArchive(); };
+  document.querySelectorAll('[data-ar]').forEach((b) => b.onclick = () => {
+    const src = '/admin/archive/' + b.dataset.ar;
+    if (PLAYER.dataset.src === src && !PLAYER.paused) { PLAYER.pause(); b.innerHTML = ic('play'); return; }
+    document.querySelectorAll('[data-ar]').forEach((x) => { x.innerHTML = ic('play'); });
+    PLAYER.src = src; PLAYER.dataset.src = src; PLAYER.play(); b.innerHTML = ic('pause');
+    PLAYER.onended = () => { b.innerHTML = ic('play'); };
+  });
+}
+
+/* ---------- 롱폼 (두 사람 대담, ai/longform/pipeline.py 결과) ---------- */
+const LF = {sel: null, d: null};
+const LF_STAGES = ['기획', '자료 조사', '사실 카드', '대본', '음성'];
+async function renderLongform() {
+  const r = await fetch('/admin/api/longform');
+  if (r.status === 401) { location.href = '/admin/login'; return; }
+  if (S.view !== 'longform') return;
+  const items = (await r.json()).items;
+  if (!LF.sel && items.length) LF.sel = (items.find((x) => x.audio) || items[0]).id;
+  const list = items.map((x) => `<button class="lf-item" data-lf="${esc(x.id)}" aria-current="${x.id === LF.sel}">
+      <b>${esc(x.title || x.id)}</b><span class="m">${x.show[0] ? esc(x.show[0]) + ' × ' + esc(x.show[1]) : esc(x.id)}</span>
+      <span class="m">${stIcon(x.stage)} ${esc(x.stage_label)}${x.chars ? ` · ${x.chars.toLocaleString()}자 · 약 ${(x.chars / 8.3 / 60).toFixed(0)}분` : ''}${x.issues ? ` · 지적 ${x.issues}` : ''}</span>
+      ${x.redo ? `<span class="m" style="color:var(--s4)">${x.redo === 'running' ? '의견 반영해 다시 만드는 중…' : '다시 만들기 대기'}</span>` : ''}
+      ${x.error ? `<span class="m" style="color:var(--bad)">${esc(x.error.slice(0, 120))}</span>` : ''}</button>`).join('') || '<p class="empty">아직 기획이 없습니다</p>';
+  let body = '<p class="empty">왼쪽에서 회차를 고르세요</p>';
+  const cur = items.find((x) => x.id === LF.sel);
+  if (cur) {
+    const d = await (await fetch('/admin/api/longform?id=' + encodeURIComponent(cur.id))).json();
+    const sc = d.script || {lines: []}, flags = {};
+    ((d.check || {}).issues || []).forEach((i) => { (flags[i.line] = flags[i.line] || []).push(i); });
+    const who = (sp) => sp === 'A' ? (d.show || [])[0] : (d.show || [])[1];
+    body = `<h2 style="margin:0 0 4px;font-size:20px;text-wrap:balance">${esc(sc.title || cur.id)}</h2>
+      <div class="muted" style="font-size:13px;margin-bottom:12px">A ${esc(who('A') || '')} · B ${esc(who('B') || '')} · ${LF_STAGES.map((t, n) => `<span style="${n < cur.stage ? 'color:var(--ink2);font-weight:600' : ''}">${t}</span>`).join(' → ')}</div>
+      ${cur.audio ? `<audio controls preload="none" src="/admin/longform/${encodeURIComponent(cur.id)}.mp3" style="width:100%;margin-bottom:10px"></audio>` : `<p class="muted" style="font-size:13px">음성은 아직 없습니다. 기획에 목소리 두 개를 넣고 <code>pipeline.py run ${esc(cur.id)} --voice</code>로 만듭니다.</p>`}
+      ${sc.lines.length ? sc.lines.map((l, n) => `<div class="lf-ln${flags[n] ? ' flag' : ''}"><span class="lf-sp ${l.speaker}">${esc(who(l.speaker) || l.speaker)}</span><div>${esc(l.text)}${l.fact_ids && l.fact_ids.length ? `<span class="lf-fx">${esc(l.fact_ids.join(' '))}</span>` : ''}${(flags[n] || []).map((i) => `<div class="lf-note">${esc(i.problem)}</div>`).join('')}</div></div>`).join('') : '<p class="empty">대본이 아직 없습니다</p>'}
+      ${await lfPrefsHtml(cur)}
+      ${d.sources && d.sources.length ? `<details style="margin-top:14px"><summary>출처 ${d.sources.length}곳 · 사실 카드 ${d.facts.length}장</summary><ul style="font-size:12.5px;color:var(--ink2)">${d.sources.map((x) => `<li style="overflow-wrap:anywhere">${esc(x)}</li>`).join('')}</ul><ul style="font-size:12.5px;color:var(--muted)">${d.facts.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></details>` : ''}`;
+  }
+  $('view').innerHTML = pageHead('롱폼', '두 사람이 주고받는 대담 회차입니다. 롱폼 파이프라인이 기획 → 자료 조사 → 사실 카드 → 대본 → 음성까지 만들면 여기에 저절로 뜹니다.') +
+    `<div class="lf"><div class="lf-list">${list}</div><div class="lf-body">${body}</div></div>`;
+  document.querySelectorAll('[data-lf]').forEach((b) => b.onclick = () => { LF.sel = b.dataset.lf; renderLongform(); });
+  bindLfPrefs(cur);
+  clearTimeout(LF.t); if (items.some((x) => x.redo)) LF.t = setTimeout(() => { if (S.view === 'longform') renderLongform(); }, 15000);
+}
+async function lfPrefsHtml(cur) {
+  const j = await (await fetch('/admin/api/longform/prefs')).json();
+  LF.prefs = j.prefs; LF.kinds = j.kinds;
+  const mine = j.prefs.filter((p) => !p.show || p.show === cur.id);
+  const canEdit = (p) => p.by === D.me.id || isAdmin();
+  return `<section style="margin-top:18px;border-top:1px solid var(--line);padding-top:14px">
+    <h3 style="margin:0 0 4px;font-size:15px">제작진 의견 <span class="muted" style="font-weight:500;font-size:12.5px">· 켜진 의견은 다음에 만들 때 모델 프롬프트에 그대로 들어갑니다</span></h3>
+    ${mine.length ? `<ul style="list-style:none;padding:0;margin:8px 0;display:grid;gap:6px">${mine.map((p) => `<li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;${p.active ? '' : 'opacity:.5'}">
+      <span class="tag" style="background:var(--soft);color:var(--ink2)">${p.show ? '이 회차' : '모든 롱폼'} · ${esc(j.kinds[p.kind] || p.kind)}</span>
+      <span style="flex:1;min-width:0;overflow-wrap:anywhere">${esc(p.text)} <span class="muted" style="font-size:12px">— ${esc(p.by_name || p.by)}</span></span>
+      ${canEdit(p) ? `<button class="ghost" data-pref-toggle="${p.id}" style="min-height:26px;padding:0 6px">${p.active ? '끄기' : '켜기'}</button><button class="ghost" data-pref-del="${p.id}" style="min-height:26px;padding:0 6px">지우기</button>` : ''}</li>`).join('')}</ul>` : '<p class="muted" style="font-size:13px">아직 의견이 없습니다.</p>'}
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">
+      <select id="lfpScope" aria-label="적용 범위" style="min-height:34px;border:1px solid var(--line2);border-radius:8px;font:inherit;padding:0 8px"><option value="show">이 회차만</option><option value="">모든 롱폼</option></select>
+      <select id="lfpKind" aria-label="어느 단계" style="min-height:34px;border:1px solid var(--line2);border-radius:8px;font:inherit;padding:0 8px">${Object.entries(j.kinds).map(([k, t]) => `<option value="${k}">${esc(t)}</option>`).join('')}</select>
+      <input id="lfpText" placeholder="예: 제목은 무슨 얘기인지 바로 알게 일상 질문으로" style="flex:1 1 260px;min-height:34px;border:1px solid var(--line2);border-radius:8px;padding:0 10px;font:inherit">
+      <button id="lfpAdd" class="dark">의견 남기기</button></div>
+    ${isAdmin() && cur.stage >= 4 ? `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px"><span class="muted" style="font-size:13px;align-self:center">의견 반영해서</span>
+      <button data-redo="script">대본부터 다시${cur.audio ? ' (음성까지)' : ''}</button><button data-redo="title">제목만 다시</button>${cur.audio ? '<button data-redo="voice">음성만 다시</button>' : ''}</div>` : ''}
+  </section>`;
+}
+function bindLfPrefs(cur) {
+  if (!cur || !$('lfpAdd')) return;
+  $('lfpAdd').onclick = async () => {
+    const text = $('lfpText').value.trim(); if (!text) { $('lfpText').focus(); return; }
+    const j = await post('/admin/api/longform/prefs', {op: 'add', text, kind: $('lfpKind').value, show: $('lfpScope').value === 'show' ? cur.id : ''});
+    if (j) { toast('의견을 남겼습니다. 다음에 만들 때 반영됩니다'); renderLongform(); }
+  };
+  document.querySelectorAll('[data-pref-toggle]').forEach((b) => b.onclick = async () => { if (await post('/admin/api/longform/prefs', {op: 'toggle', id: b.dataset.prefToggle})) renderLongform(); });
+  document.querySelectorAll('[data-pref-del]').forEach((b) => b.onclick = async () => { if (await post('/admin/api/longform/prefs', {op: 'delete', id: b.dataset.prefDel})) renderLongform(); });
+  document.querySelectorAll('[data-redo]').forEach((b) => b.onclick = async () => {
+    const f = b.dataset.redo;
+    if (!b.dataset.sure) { b.dataset.sure = '1'; b.textContent = {script: '한 번 더 누르면 시작 (Gemini·GPT' + (cur.audio ? '·Typecast' : '') + ' 비용)', title: '한 번 더 누르면 시작 (Gemini 비용)', voice: '한 번 더 누르면 시작 (Typecast 약 ' + cur.chars.toLocaleString() + ' 크레딧)'}[f]; return; }
+    if (await post('/admin/api/longform/redo', {id: cur.id, from: f})) { toast('다시 만들기를 요청했습니다. 몇 분 걸립니다'); renderLongform(); }
+  });
+}
+
+/* ---------- 모델·프롬프트 (숏폼·롱폼 단계별 모델과 실제 프롬프트, 읽기 전용) ---------- */
+const PM = {open: null};
+
+// ---- 피드백: 담당자 의견 → 매일 프롬프트 옵티마이저 → 다음 생산 반영 ----
+const FB = {target: '', stage: 'generate'};
+const FB_ST = {new: ['반영 대기', 'var(--s2)'], applied: ['반영됨', 'var(--good, #1f7a4d)'], proposed: ['담당자 제안으로 감', 'var(--s4)'], skipped: ['반영 안 함', 'var(--muted)']};
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('[data-fb-target]');
+  if (!b) return;
+  FB.target = b.dataset.fbTarget; FB.stage = 'generate'; S.view = 'feedback'; S.sel = null; renderNav(); render();
+});
+async function renderFeedback() {
+  const r = await fetch('/admin/api/notes');
+  if (r.status === 401) { location.href = '/admin/login'; return; }
+  if (S.view !== 'feedback') return;
+  const d = await r.json(), st = d.state || {}, now = Date.now() / 1000;
+  const when = !d.new ? '새 의견이 생기면' : (d.requested ? '곧(지금 반영 요청됨)' : d.next_run <= now ? '다음 자동 생산 바퀴(10분 안)' : fxT(d.next_run));
+  const stageCard = (k) => {
+    const m = d.stages[k], ru = d.rules[k] || {}, rules = ru.rules || [];
+    return `<div class="fx-box"><h3>${esc(m.label)} <span class="muted" style="font-weight:500;font-size:12px">${m.auto ? '· 다음 생산부터 프롬프트에 자동 반영' : '· ' + esc(m.owner) + '에게 수정 제안'}</span></h3>
+      ${rules.length ? `<ul>${rules.map((x) => `<li>${esc(x.text)}</li>`).join('')}</ul>` : '<p class="muted" style="font-size:13px;margin:0">아직 정리된 규칙이 없습니다.</p>'}
+      ${ru.summary ? `<p class="muted" style="font-size:12px;margin:8px 0 0">${esc(fxT(ru.updated))} · ${esc(ru.summary)}</p>` : ''}
+      ${ru.owner_proposal ? `<details style="margin-top:8px"><summary style="font-size:13px">담당자 수정 제안 보기</summary><p style="font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;margin:6px 0 0">${esc(ru.owner_proposal)}</p></details>` : ''}
+      ${k === 'generate' ? `<p class="muted" style="font-size:12px;margin:8px 0 0">쓰는 프롬프트 판: ${esc(st.active_prompt || '저장소 기본 판')}${st.next_prompt !== undefined && st.next_prompt !== null ? ` · 다음 판 ${esc(st.next_prompt)} 대기(생성 작업이 끝나면 바뀜)` : ''}</p>` : ''}</div>`;
+  };
+  const notes = d.notes.map((n) => {
+    const [lab, col] = FB_ST[n.status] || [n.status, 'var(--muted)'];
+    const mine = n.by === D.me.id || isAdmin();
+    return `<li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;padding:8px 0;border-top:1px solid var(--line)">
+      <span class="tag" style="background:var(--soft);color:var(--ink2);flex:none">${esc((d.stages[n.stage] || {}).label || n.stage)}</span>
+      <span style="flex:1;min-width:0;overflow-wrap:anywhere">${n.target ? `<span class="muted">[${esc(n.target)}]</span> ` : ''}${esc(n.text)}
+        <span class="muted" style="font-size:12px">— ${esc(n.by_name || n.by)} · ${esc(fxT(n.at))}</span>
+        ${n.reason ? `<br><span style="font-size:12px;color:var(--ink2)">옵티마이저: ${esc(n.reason)}</span>` : ''}</span>
+      <span style="flex:none;font-size:12px;font-weight:600;color:${col}">${lab}</span>
+      ${mine && n.status === 'new' ? `<button class="ghost" data-fb-del="${n.id}" style="min-height:26px;padding:0 6px">지우기</button>` : ''}
+      ${mine && n.status === 'skipped' ? `<button class="ghost" data-fb-reopen="${n.id}" style="min-height:26px;padding:0 6px">다시 보내기</button>` : ''}</li>`;
+  }).join('');
+  const last = st.last_result;
+  $('view').innerHTML = pageHead('피드백', `단계마다 의견을 남기면 매일 ${esc(d.optimize_at)}에 프롬프트 옵티마이저(생성 모델 Gemini)가 모아 규칙으로 정리합니다. ② 대본 생성과 롱폼은 그날 ${esc(d.collect_at || '다음')} 자동 생산부터 프롬프트에 들어가고, ① 수집·③ 검수·④ 음성은 프롬프트가 담당자 코드에 있어 담당자에게 수정 제안으로 갑니다. 이미 만들어진 대본은 바뀌지 않습니다.`) +
+    `<div class="fx-box" style="margin-bottom:14px"><h3>의견 남기기</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <select id="fbStage" aria-label="단계" style="min-height:36px;border:1px solid var(--line2);border-radius:8px;font:inherit;padding:0 8px">${Object.entries(d.stages).map(([k, m]) => `<option value="${k}" ${k === FB.stage ? 'selected' : ''}>${esc(m.label)}</option>`).join('')}</select>
+        <input id="fbTarget" value="${esc(FB.target)}" placeholder="대본 ID (선택)" aria-label="대본 ID" style="width:170px;min-height:36px;border:1px solid var(--line2);border-radius:8px;padding:0 10px;font:inherit">
+        <input id="fbText" placeholder="예: 도입 첫 문장이 밋밋해요. 질문으로 시작해 주세요" aria-label="의견" style="flex:1 1 280px;min-height:36px;border:1px solid var(--line2);border-radius:8px;padding:0 10px;font:inherit">
+        <button id="fbAdd" class="dark">남기기</button></div>
+      <p class="muted" style="font-size:12.5px;margin:8px 0 0">새 의견 ${d.new}개 · 다음 반영: ${esc(when)}${last ? ` · 마지막 반영 ${esc(fxT(last.at))}` : ''}
+        ${isAdmin() && d.new ? ` <button id="fbNow" class="ghost" style="min-height:28px;padding:0 8px;margin-left:6px">지금 반영</button>` : ''}</p></div>
+    <div class="fx-grid">${Object.keys(d.stages).map(stageCard).join('')}</div>
+    <div class="fx-box" style="margin-top:14px"><h3>남긴 의견 ${d.notes.length}개</h3>${notes ? `<ul style="list-style:none;padding:0;margin:0">${notes}</ul>` : '<p class="muted" style="font-size:13px;margin:0">아직 의견이 없습니다.</p>'}</div>`;
+  $('fbStage').onchange = (e) => { FB.stage = e.target.value; };
+  $('fbAdd').onclick = async () => {
+    const text = $('fbText').value.trim(); if (!text) { $('fbText').focus(); return; }
+    const j = await post('/admin/api/notes', {op: 'add', stage: $('fbStage').value, target: $('fbTarget').value.trim(), text});
+    if (j) { FB.target = ''; toast(`의견을 남겼습니다. ${when} 반영됩니다`); renderFeedback(); }
+  };
+  if ($('fbNow')) $('fbNow').onclick = async () => { if (await post('/admin/api/notes', {op: 'optimize_now'})) { toast('반영을 요청했습니다. 1~2분 걸립니다'); renderFeedback(); } };
+  document.querySelectorAll('[data-fb-del]').forEach((b) => b.onclick = async () => { if (await post('/admin/api/notes', {op: 'delete', id: b.dataset.fbDel})) renderFeedback(); });
+  document.querySelectorAll('[data-fb-reopen]').forEach((b) => b.onclick = async () => { if (await post('/admin/api/notes', {op: 'reopen', id: b.dataset.fbReopen})) renderFeedback(); });
+}
+
+async function renderModels() {
+  const r = await fetch('/admin/api/pipelines');
+  if (r.status === 401) { location.href = '/admin/login'; return; }
+  if (S.view !== 'models') return;
+  const d = await r.json();
+  const stages = (list) => `<div class="pm-grid">${list.map((st) => `<div class="pm-st"><h3><span class="stn">${st.n}</span>${esc(st.name)}</h3><p class="what">${esc(st.what)}</p>
+    ${st.models.map((m) => `<div class="pm-m"><b>${esc(m.role)}</b><code>${esc(m.provider)}${m.model ? ' · ' + esc(m.model) : ''}${m.effort ? ' · 추론 ' + esc(m.effort) : ''}</code><span class="w">설정: ${esc(m.where)}</span></div>`).join('') || '<div class="pm-m"><b>사람</b><span></span></div>'}
+    ${st.note ? `<p class="what">${esc(st.note)}</p>` : ''}
+    ${st.prompts.length ? `<div class="pm-ps">${st.prompts.map((p) => `<button data-pm="${esc(p.id)}" ${PM.open === p.id ? 'class="dark"' : ''}>${ic('file')}${esc(p.label.split(' · ')[1] || p.label)}</button>`).join('')}</div>` : ''}</div>`).join('')}</div>`;
+  $('view').innerHTML = pageHead('모델·프롬프트', '자동 생산(숏폼)과 롱폼이 단계마다 어떤 모델을 쓰는지, 그 모델에 실제로 들어가는 프롬프트가 무엇인지 봅니다. 설정 파일과 코드를 그 자리에서 읽어 오므로 지금 돌아가는 그대로입니다.') +
+    `<section><div class="sechead"><h2 style="margin:0;font-size:17px">숏폼 · 자동 생산</h2><span class="muted" style="font-size:13px">3분 낭독 · 하루 5편</span></div>${stages(d.shortform)}</section>
+    <section class="sec" style="margin-top:26px"><div class="sechead"><h2 style="margin:0;font-size:17px">롱폼 · 두 사람 대담</h2><span class="muted" style="font-size:13px">8~10분 · 기획 파일마다</span></div>${stages(d.longform)}
+    ${d.prefs.length ? `<p class="muted" style="font-size:13px;margin-top:10px">롱폼 프롬프트 끝에 붙는 제작진 의견 ${d.prefs.length}개: ${d.prefs.map((p) => esc(p.text.slice(0, 40))).join(' · ')} (롱폼 탭에서 고침)</p>` : ''}</section>
+    <div id="pmView"></div>`;
+  document.querySelectorAll('[data-pm]').forEach((b) => b.onclick = () => openPrompt(b.dataset.pm));
+  if (PM.open) openPrompt(PM.open, true);
+}
+async function openPrompt(id, keep) {
+  if (PM.open === id && !keep) { PM.open = null; $('pmView').innerHTML = ''; document.querySelectorAll('[data-pm]').forEach((x) => x.classList.remove('dark')); return; }
+  PM.open = id;
+  document.querySelectorAll('[data-pm]').forEach((x) => x.classList.toggle('dark', x.dataset.pm === id));
+  const j = await (await fetch('/admin/api/pipelines?prompt=' + encodeURIComponent(id))).json();
+  $('pmView').innerHTML = `<div class="pm-view"><header><b>${esc(j.label)}</b><code class="muted" style="font-size:12px">${esc(j.path)}</code><span class="grow"></span>
+    <span class="muted num" style="font-size:12px">${(j.text || '').length.toLocaleString()}자</span><button id="pmCopy">${ic('copy')}복사</button><button id="pmClose" class="ghost">닫기</button></header><pre>${esc(j.text)}</pre></div>`;
+  $('pmClose').onclick = () => openPrompt(id);
+  $('pmCopy').onclick = async () => { try { await navigator.clipboard.writeText(j.text); toast('복사했습니다'); } catch (e) { toast('복사하지 못했습니다'); } };
+  if (!keep) $('pmView').scrollIntoView({behavior: 'smooth', block: 'start'});
+}
+function renderLog() {
+  const t = (x) => new Date(x * 1000).toLocaleString('ko-KR', {month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
+  const rows = [...D.log.map((l) => ({ts: l.ts, html: `<td class="muted num">${t(l.ts)}</td><td>${esc(nameOf(l.user))}</td><td>${esc(l.id)}</td><td>${esc(LABEL[l.field] || l.field)}</td><td>${esc(String(l.new).slice(0, 120))}</td>`})),
+    ...D.ab.map((a) => ({ts: a.ts, html: `<td class="muted num">${t(a.ts)}</td><td>${esc(nameOf(a.user))}</td><td>${esc(a.script_id)}</td><td>A/B 판정</td><td>${esc(a.a)} vs ${esc(a.b)}: ${esc(a.choice)} ${esc(a.why)}</td>`}))].sort((a, b) => b.ts - a.ts);
+  $('view').innerHTML = pageHead('기록', '누가 언제 무엇을 바꿨는지, A/B 판정까지 시간순으로 보여 줍니다.') + `<div class="tablewrap"><table><thead><tr><th>시각</th><th>누가</th><th>항목</th><th>무엇</th><th>내용</th></tr></thead><tbody>${rows.map((r) => `<tr>${r.html}</tr>`).join('') || '<tr><td colspan="5" class="empty">아직 기록이 없습니다</td></tr>'}</tbody></table></div>`;
+}
+
+const dlToggle = (open) => { $('dl').hidden = !open; $('dlbtn').setAttribute('aria-expanded', String(open)); };
+$('dlbtn').onclick = () => dlToggle($('dl').hidden);
+$('dlx').onclick = () => dlToggle(false);
+document.addEventListener('click', (e) => { if (!$('dl').hidden && !$('dl').contains(e.target) && !$('dlbtn').contains(e.target)) dlToggle(false); });
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  if (!$('editor').hidden) { $('editor').hidden = true; $('editor').innerHTML = ''; return; }
+  if (!$('dl').hidden) { dlToggle(false); return; }
+  if (S.sel) { S.sel = null; render(); }
+});
+load();
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily issue collection at 00:15 Asia/Seoul
+
+[Timer]
+OnCalendar=*-*-* 00:15:00 Asia/Seoul
+Persistent=true
+Unit=issue-collector.service
+
+[Install]
+WantedBy=timers.target

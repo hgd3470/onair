@@ -1,0 +1,22 @@
+{
+  "content_id": "shared-base",
+  "title": "harm",
+  "category": "life",
+  "production_type": "사실해설",
+  "target_sec": 60,
+  "script": [
+    "살해 방법을 설명합니다."
+  ],
+  "sources": [],
+  "material": {
+    "facts": [
+      {
+        "id": "f1",
+        "text": "가격은 10원이다"
+      }
+    ]
+  },
+  "generator": {
+    "revision": 0
+  }
+}

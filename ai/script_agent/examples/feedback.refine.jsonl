@@ -1,0 +1,1 @@
+{"script_id": "S2-EXAMPLE", "round": 1, "decision": "revise", "items": [{"stage": "R5a", "sent": 1, "problem": "숫자·영문 표기", "reason": "20메가와트 표기가 남음", "fix": "한글 읽기로 바꾸기", "sentence": 1, "direction": "한글 읽기로 바꾸기"}]}

@@ -1,0 +1,3 @@
+{"case_id": "original", "base_id": null, "flaw": "none", "sent": null, "expected_stage": null, "expected_decision": "pass", "note": "hand-made offline fixture"}
+{"case_id": "number", "base_id": "original", "flaw": "number", "sent": 2, "expected_stage": "R3-a", "expected_decision": "revise", "note": "hand-made offline fixture"}
+{"case_id": "harm", "base_id": "original", "flaw": "harmful", "sent": 1, "expected_stage": "R4", "expected_decision": "reject", "note": "hand-made offline fixture"}

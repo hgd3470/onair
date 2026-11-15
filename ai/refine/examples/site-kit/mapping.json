@@ -1,0 +1,152 @@
+[
+  {
+    "id": "w1-c01-01",
+    "source_ids": []
+  },
+  {
+    "id": "w1-c06-01",
+    "source_ids": []
+  },
+  {
+    "id": "w1-c13-01",
+    "source_ids": []
+  },
+  {
+    "id": "w1-c19-01",
+    "source_ids": [
+      "SRC-070"
+    ]
+  },
+  {
+    "id": "w1-c21-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c01-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c02-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c03-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c04-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c05-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c06-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c07-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c08-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c09-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c10-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c11-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c12-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c13-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c14-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c15-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c16-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c17-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c18-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c19-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c20-01",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c21-01",
+    "source_ids": []
+  },
+  {
+    "id": "demo-i03",
+    "source_ids": []
+  },
+  {
+    "id": "demo-i05",
+    "source_ids": []
+  },
+  {
+    "id": "demo-i06",
+    "source_ids": []
+  },
+  {
+    "id": "demo-i07",
+    "source_ids": []
+  },
+  {
+    "id": "demo-m01",
+    "source_ids": []
+  },
+  {
+    "id": "demo-m05",
+    "source_ids": []
+  },
+  {
+    "id": "demo-e02",
+    "source_ids": []
+  },
+  {
+    "id": "demo-e04",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c21-02",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c21-03",
+    "source_ids": []
+  },
+  {
+    "id": "w2-c21-04",
+    "source_ids": []
+  }
+]

@@ -1,0 +1,72 @@
+{
+  "content_id": "story_bad",
+  "title": "story_bad",
+  "category": "story",
+  "production_type": "창작·각색",
+  "target_sec": 60,
+  "script": [
+    "웅천사격장 주변에 사는 주민들이 국가를 상대로 소송을 냈어요.",
+    "전투기 훈련 소음은 매우 날카롭고 충격적인 폭발소음이기는 하나 하루 동안 지속적으로 발생하는 것이 아니라 훈련이 행하여지는 시간 동안 간헐적으로 발생했어요.",
+    "법원은 70dB 이상 지역 주민에게 위자료를 줘야 한다고 봤어요.",
+    "75dB 이상이면 월 100,000원이었죠.",
+    "그런데 소음을 알고 이사 온 주민은 배상액을 줄여야 한다고 했어요."
+  ],
+  "sources": [
+    {
+      "source_id": "law.go.kr:prec:2008다57975",
+      "type": "story",
+      "collect_method": "web-page (API는 OC·IP 등록 필요)",
+      "fetched_at": "2026-11-07T19:20+09:00",
+      "url": "https://www.law.go.kr/LSW/precInfoP.do?mode=0&evtNo=2008다57975",
+      "publisher": "국가법령정보센터",
+      "title": "대법원 2010. 11. 11. 선고 2008다57975 판결 [손해배상(기)]",
+      "text_path": "../sources/prec_2008다57975.txt",
+      "license": {
+        "kind": "copyright-art7",
+        "commercial": "yes",
+        "modify": "yes",
+        "attribution": "대법원 2008다57975 판결(국가법령정보센터)",
+        "checked_at": "2026-11-07",
+        "basis": "저작권법 제7조 3호. 판결에 인용된 제3자 저작물은 제외",
+        "share_alike": false
+      },
+      "attribution": "대법원 2008다57975 판결(국가법령정보센터)",
+      "source_url": "https://www.law.go.kr/LSW/precInfoP.do?mode=0&evtNo=2008다57975"
+    }
+  ],
+  "material": {
+    "script_type": "story",
+    "source_ids": [
+      "law.go.kr:prec:2008다57975"
+    ],
+    "premise": "시끄러운 곳인 줄 알고 이사 온 사람도 소음 피해를 배상받을 수 있을까",
+    "legal_point": "위험을 알고(또는 알 수 있었는데) 이사했다면 배상액을 줄일 사유가 되지만, 그것만으로 배상 책임이 완전히 사라지지는 않는다",
+    "generation_rules": {
+      "characters": "새로 만든 가상 인물",
+      "setting": "원천과 다른 장소·소음원",
+      "numbers": "원천 숫자 사용 금지",
+      "tone": "이야기형, 마지막에 법 포인트 한 줄"
+    },
+    "must_not_use": [
+      "웅천",
+      "사격장",
+      "공군",
+      "전투기",
+      "70dB",
+      "75dB",
+      "100,000원",
+      "월 10만",
+      "2008다57975"
+    ],
+    "attribution": "모티프: 대법원 2008다57975 판결(사실관계·인물은 새로 창작)",
+    "facts": [
+      {
+        "id": "f1",
+        "text": "위험을 알고(또는 알 수 있었는데) 이사했다면 배상액을 줄일 사유가 되지만, 그것만으로 배상 책임이 완전히 사라지지는 않는다"
+      }
+    ]
+  },
+  "generator": {
+    "revision": 0
+  }
+}

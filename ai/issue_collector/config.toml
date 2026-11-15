@@ -1,0 +1,55 @@
+[models.generator]
+provider = "gemini"
+model = "gemini-4-hydrogen"
+# Used only if explicitly switching back to Vertex in standard mode.
+credentials_root = "../script_agent"
+effort = "medium"
+max_output_tokens = 24000
+
+[models.verifier]
+provider = "openai"
+model = "gpt-6-luna"
+effort = "medium"
+max_output_tokens = 16000
+
+[collection]
+mode = "batch"
+timezone = "Asia/Seoul"
+items_per_stream = 3
+candidate_topics = 8
+max_feed_items = 120
+max_candidates = 800
+max_articles_per_topic = 8
+max_article_chars = 16000
+http_timeout_sec = 25
+model_timeout_sec = 300
+http_workers = 6
+stream_workers = 2
+min_facts = 3
+min_independent_sources = 2
+# Search supplements feeds; discovery text is never accepted as factual evidence.
+google_search = true
+prompt_version = "v1"
+
+# NCP API HUB keys are read only from this root's .env or the environment.
+[collection.naver]
+enabled = true
+display = 100
+max_pages = 10
+topic_max_pages = 3
+retries = 2
+issue_queries = ["정부 정책 발표", "국무회의", "국회 본회의", "재난 안전", "고용 임금", "대출 금리", "세금 연금", "주거 물가", "보건복지부", "교육부"]
+market_queries = ["코스피 마감", "코스닥 마감", "원달러 환율", "국고채 금리", "한국은행", "수출 통계", "한국은행 통계"]
+
+[script]
+target_sec = 60
+workers = 2
+
+[batch]
+poll_interval_sec = 15
+wait_timeout_sec = 86400
+
+[editorial]
+audience = "40~50대 직장인"
+interests = ["고용·임금·근로 제도", "대출·금리·가계 부담", "세금·연금·노후 준비", "주거·물가", "의료·건강 정책", "교육·돌봄", "교통·생활 안전", "국내 시장·경제 정책"]
+weight = "공공 중요도와 검증 가능성이 비슷할 때 생활·직장 관련성을 가볍게 우선"

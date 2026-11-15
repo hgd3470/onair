@@ -1,0 +1,38 @@
+{
+  "$defs": {
+    "Issue": {
+      "additionalProperties": false,
+      "properties": {
+        "sentence": {
+          "minimum": 0,
+          "title": "Sentence",
+          "type": "integer"
+        },
+        "problem": {
+          "title": "Problem",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "direction": {
+          "title": "Direction",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sentence",
+        "problem",
+        "reason",
+        "direction"
+      ],
+      "title": "Issue",
+      "type": "object"
+    }
+  },
+  "items": {
+    "$ref": "#/$defs/Issue"
+  },
+  "type": "array"
+}
